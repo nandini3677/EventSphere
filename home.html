@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     </head>
-<body>
+    <!--here starts html-->
+<body> 
     <header>
        <div class="logo">EventSphere</div>
     <nav>
@@ -21,26 +22,32 @@
     <main>
    <div class="holographic-container">
     <div class="holographic-card">
-      <h2>HOLOGRAM</h2>
+      <h2>SOCIAL EVENTS</h2>
     </div>
      <div class="holographic-card">
-      <h2>HOLOGRAM</h2>
+      <h2>CORPORATE EVENTS</h2>
     </div>
      <div class="holographic-card">
-      <h2>HOLOGRAM</h2>
+      <h2>CULTURAL & ENTERTAINMENT EVENTS</h2>
     </div>
      <div class="holographic-card">
-      <h2>HOLOGRAM</h2>
+      <h2>COMMUNITY & EDUCATIONAL EVENTS</h2>
     </div>
   </div>
-    </main>
+ <video autoplay muted playsinline class="bg-video-home" id="bgVideo">
+</video>
+
+ <h4 class="hero-text">WHERE EVERY EVENT FINDS IT'S PERFECT ORBIT.</h4>
+ </main>
      <footer>when we will add content to main, the footer will settle down</footer>
 </body>
 </html>
 
+<!--here starts css-->
+
 <style>
 header {
-    background-color: #623817;
+    
     color: #ffffff;
     padding: 15px 20px;
     text-align: center;
@@ -49,6 +56,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: right;
+    border-bottom: 3px solid rgb(60, 38, 24);
 
 }
 
@@ -74,7 +82,7 @@ nav ul li a {
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color:  #2b1c09;
+    background-color:  #1d1101;
     color: #cd9d82;
 }
  
@@ -96,13 +104,12 @@ footer {
   gap: 20px;
   position: relative;
   padding: 50px 20px;
-
 }
 
 .holographic-card {
   width: 300px;
   height: 200px;
-  background: #111;
+  background: black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -117,6 +124,8 @@ footer {
   font-size: 2rem;
   position: relative;
   z-index: 2;
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .holographic-card::before {
@@ -147,4 +156,60 @@ footer {
   transform: rotate(-45deg) translateY(100%);
 }
 
+/* here to aligh h4 in centre and above bg video*/
+.hero-text {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* perfect centering */
+  z-index: 1;
+  color: white;
+  font-size: 3.5rem;
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* here starts bg video arrengement*/
+
+.bg-video-home {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+  z-index: -1;  
+}
+
 </style>
+
+<!--here starts js-->
+<script>
+  //here starts bg video looping// 
+  // Playlist of videos
+  const videos = [
+    "evnt2.mp4",
+    "evnt.mp4",
+    "evnt3.mp4"
+  ];
+
+  let current = 0;
+  const videoElement = document.getElementById("bgVideo");
+
+  // Load and play first video
+  videoElement.src = videos[current];
+  videoElement.play();
+
+  // When one video ends, play the next
+  videoElement.addEventListener("ended", () => {
+    current = (current + 1) % videos.length; // Loop back to start
+    videoElement.src = videos[current];
+    videoElement.play();
+  });
+
+//here starts finisher header, i.e background animation
+
+
+
+</script>
