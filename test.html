@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why Choose EventSphere</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(135deg, #1a1b1f, #0f0f10);
+      color: #fff;
+    }
+
+    /* ===== SECTION ===== */
+    #why-eventsphere {
+      padding: 80px 16px;
+    }
+
+    #why-eventsphere .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    #why-eventsphere h2 {
+      font-size: 2.2rem;
+      margin: 0;
+    }
+
+    #why-eventsphere .subtitle {
+      margin-top: 8px;
+      color: #bbb;
+    }
+
+    /* ===== GRID ===== */
+    #why-eventsphere .usp-grid {
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    /* ===== CARD (Glass Effect) ===== */
+    #why-eventsphere .usp-card {
+      background: rgba(255, 255, 255, 0.08);   /* translucent */
+      backdrop-filter: blur(12px) saturate(160%);
+      -webkit-backdrop-filter: blur(12px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      transition: transform .35s ease, box-shadow .35s ease, opacity .6s ease;
+
+      opacity: 0;
+      transform: translateY(18px) scale(0.96);
+    }
+
+    #why-eventsphere .usp-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5),
+                  0 0 18px rgba(124, 92, 255, 0.3);
+    }
+
+    /* ===== ICON ===== */
+    #why-eventsphere .usp-card .icon {
+      display: inline-grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: rgba(124, 92, 255, 0.15);
+      backdrop-filter: blur(8px) saturate(180%);
+      -webkit-backdrop-filter: blur(8px) saturate(180%);
+      border: 1px solid rgba(124, 92, 255, 0.35);
+      margin-bottom: 14px;
+      box-shadow: 0 4px 12px rgba(124, 92, 255, 0.25);
+    }
+
+    #why-eventsphere .usp-card .icon svg {
+      width: 26px;
+      height: 26px;
+      fill: #7c5cff;
+    }
+
+    #why-eventsphere .usp-card h3 {
+      margin: 4px 0 6px;
+    }
+
+    #why-eventsphere .usp-card p {
+      color: #bbb;
+      font-size: 14.5px;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ===== Pop-in Animation ===== */
+    #why-eventsphere .usp-card.in-view {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      transition-delay: calc(var(--i, 0) * 90ms);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- WHY CHOOSE EVENTSPHERE -->
+  <section id="why-eventsphere">
+    <div class="container">
+      <h2>Why Choose EventSphere</h2>
+      <p class="subtitle">Reliable planning, creative ideas, and stress-free execution.</p>
+
+      <div class="usp-grid">
+        <article class="usp-card" style="--i:0">
+          <span class="icon">
+            <svg viewBox="0 0 24 24"><path d="M9 18h6a3 3 0 0 0 1-2.236c0-1.07.497-1.86 1.2-2.58A6.5 6.5 0 1 0 6.8 13.184C7.503 13.904 8 14.694 8 15.764A3 3 0 0 0 9 18Zm0 2a3 3 0 0 0 3 3 3 3 0 0 0 3-3H9Z"/></svg>
+          </span>
+          <h3>Creative & Unique Concepts</h3>
+          <p>No copy-paste events. We design experiences that match your vibe.</p>
+        </article>
+
+        <article class="usp-card" style="--i:1">
+          <span class="icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5l-8-3Zm-1 14-3-3 1.41-1.41L11 12.17l4.59-4.58L17 9l-6 7Z"/></svg>
+          </span>
+          <h3>Seamless Execution</h3>
+          <p>From planning to wrap-up, we keep everything on track.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const cards = document.querySelectorAll('#why-eventsphere .usp-card');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    cards.forEach(card => io.observe(card));
+  </script>
+</body>
+</html>
