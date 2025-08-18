@@ -8,14 +8,14 @@
     <!--here starts html-->
 <body> 
     <header>
-       <div class="logo">EventSphere</div>
-    <nav>
+       <div class="logo"><i style="padding-left: 89%; padding-top: 20px; color: #e0cbb9;font-family:harrington;"><b style="font-size: xxx-large; color: #53331f;">E</b><b>>ventSphere</b></i></div>
+    <nav style="padding-top: 28px; font-family:harrington;">
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="contact.html">Contact Us</a></li>
-        <li><a href="signup.html">Signup</a></li>
-        <li><a href="login.html">Login</a></li>
+        <li><a href="signup.html">Sign Up</a></li>
+        <li><a href="login.html">Log In</a></li>
       </ul>
     </nav>
 </header>
@@ -55,8 +55,8 @@
 <!-- WHY CHOOSE EVENTSPHERE -->
   <section id="why-eventsphere">
     <div class="container">
-      <h2>Why Choose EventSphere</h2>
-      <p class="subtitle">Reliable planning, creative ideas, and stress-free execution.</p>
+      <h2 style="text-align: center;" >Why Choose EventSphere</h2>
+      <p style="text-align: center;" class="subtitle">Reliable planning, creative ideas, and stress-free execution.</p>
 
       <div class="usp-grid">
         <article class="usp-card" style="--i:0">
@@ -129,7 +129,7 @@
 header {
     
     color: #ffffff;
-    padding: 15px 20px;
+    padding: 1.7px 30px;
     text-align: center;
     font-size: 1.3rem;
     font-weight: bold;
@@ -138,8 +138,22 @@ header {
     align-items: right;
     border-bottom: 3px solid rgb(60, 38, 24);
 
+    
+
 }
 
+.logo{
+
+  background-image: url(ES-LOGO.jpeg);
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: cover;
+  height:70px;
+  width: 90px;
+  border-radius: 60px;
+  top: 1px;
+  bottom: 1px;
+}
   nav ul {
       list-style: none;
       display: flex;
@@ -153,6 +167,7 @@ nav ul li a {
       text-decoration: none;
       font-size: 16px;
       transition: color 0.3s;
+      font-weight: bold;
     }
 
  nav ul li a:hover {
@@ -303,6 +318,11 @@ footer {
  /* ===== SECTION why event sphere ===== */
     #why-eventsphere {
       padding: 80px 16px;
+      background-image: url(bg-whyeventsphere2.jpg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: 'Times New Roman', Times, serif;
     }
 
     #why-eventsphere .container {
@@ -339,7 +359,6 @@ footer {
       padding: 20px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
       transition: transform .35s ease, box-shadow .35s ease, opacity .6s ease;
-      
       opacity: 0;
       transform: translateY(18px) scale(0.96);
     }
