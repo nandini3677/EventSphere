@@ -1,16 +1,125 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="Event.css">
- </head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us • EventSphere</title>
+  <meta name="csrf-token" content="{{ csrf_token | default('') }}">
+  <style>
+    :root { --gap: 12px; --radius: 10px; --maxw: 760px; --shadow: 0 8px 20px rgba(0,0,0,.06); }
+    *{box-sizing:border-box} body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;margin:0;background:#f7f8fb;color:#222}
+    .wrap{max-width:var(--maxw);margin:40px auto;padding:24px;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
+    h1{margin:0 0 6px} p.lead{margin:0 0 18px;color:#555}
+    form{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+    label{font-size:.95rem;margin-bottom:6px;display:block;color:#333}
+    .field{display:flex;flex-direction:column}
+    input,textarea,button,select{font:inherit}
+    input,textarea,select{padding:12px 14px;border:1px solid #e2e5ea;border-radius:8px;background:#fff;outline:none}
+    input:focus,textarea:focus,select:focus{border-color:#6a8cff;box-shadow:0 0 0 3px rgba(106,140,255,.15)}
+    textarea{min-height:140px;resize:vertical}
+    .span-2{grid-column:1 / -1}
+    .row{display:flex;gap:var(--gap)}
+    .req{color:#e43d3d}
+    .hp{position:absolute !important;left:-99999px !important;opacity:0 !important;height:0 !important;width:0 !important;pointer-events:none}
+    .actions{display:flex;gap:10px;align-items:center}
+    button.primary{padding:12px 16px;border:none;border-radius:10px;background:#111;color:#fff;cursor:pointer}
+    button.primary:disabled{opacity:.6;cursor:not-allowed}
+    .note{font-size:.9rem;color:#666}
+    .toast{position:fixed;right:16px;bottom:16px;background:#111;color:#fff;padding:12px 14px;border-radius:10px;opacity:0;transform:translateY(10px);transition:.25s;box-shadow:var(--shadow)}
+    .toast.show{opacity:1;transform:translateY(0)}
+    .error{border-color:#e43d3d !important}
+    @media (max-width:720px){form{grid-template-columns:1fr}}
+  </style>
+</head>
 <body>
-    <header>this is both of your page om/ piyush (om will mainly be working on this piyush can help.)</header>
-    <main>
-    <p>start</p>
-    </main>
-     <footer>when we will add content to main, the footer will settle down</footer>
+  <div class="wrap" role="region" aria-labelledby="contact-heading">
+    <h1 id="contact-heading">Contact Us</h1>
+    <p class="lead">Have a question about EventSphere or want help planning? We’ll get back within 24–48 hours.</p>
+
+    <form id="contactForm" novalidate aria-describedby="contact-note">
+      <!-- Honeypot (bots fill this; humans never see it) -->
+      <input type="text" name="website" id="website" class="hp" tabindex="-1" autocomplete="off" />
+
+      <div class="field">
+        <label for="full_name">Full Name <span class="req">*</span></label>
+        <input id="full_name" name="full_name" autocomplete="name" required />
+      </div>
+
+      <div class="field">
+        <label for="email">Email <span class="req">*</span></label>
+        <input id="email" name="email" type="email" autocomplete="email" required />
+      </div>
+
+      <div class="field">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 9XXXXXXXXX" />
+      </div>
+
+      <div class="field">
+        <label for="subject">Subject <span class="req">*</span></label>
+        <input id="subject" name="subject" required />
+      </div>
+
+      <div class="field span-2">
+        <label for="message">Message <span class="req">*</span></label>
+        <textarea id="message" name="message" required></textarea>
+      </div>
+
+      <div class="span-2 actions">
+        <button id="submitBtn" class="primary" type="submit">Send Message</button>
+        <span id="contact-note" class="note">By submitting, you agree to our terms.</span>
+      </div>
+    </form>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const btn = document.getElementById('submitBtn');
+    const toast = document.getElementById('toast');
+
+    function showToast(msg){ toast.textContent = msg; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 3500); }
+    function setLoading(state){ btn.disabled = state; btn.textContent = state ? 'Sending…' : 'Send Message'; }
+
+    function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // simple client-side validation
+      const data = Object.fromEntries(new FormData(form).entries());
+      ['full_name','email','subject','message'].forEach(id=>document.getElementById(id).classList.remove('error'));
+
+      let ok = true;
+      if(!data.full_name?.trim()){ ok=false; document.getElementById('full_name').classList.add('error'); }
+      if(!validEmail(data.email || '')){ ok=false; document.getElementById('email').classList.add('error'); }
+      if(!data.subject?.trim()){ ok=false; document.getElementById('subject').classList.add('error'); }
+      if(!data.message?.trim()){ ok=false; document.getElementById('message').classList.add('error'); }
+      if(!ok){ showToast('Please fill all required fields.'); return; }
+
+      // bot check
+      if (data.website) { return; }
+
+      setLoading(true);
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        if (res.ok) {
+          form.reset();
+          showToast('Thanks! Your message has been sent.');
+        } else {
+          showToast(json?.error || 'Something went wrong. Please try again.');
+        }
+      } catch (err) {
+        showToast('Network error. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    });
+  </script>
 </body>
 </html>
