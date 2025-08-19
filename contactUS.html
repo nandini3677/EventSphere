@@ -6,28 +6,96 @@
   <title>Contact Us • EventSphere</title>
   <meta name="csrf-token" content="{{ csrf_token | default('') }}">
   <style>
-    :root { --gap: 12px; --radius: 10px; --maxw: 760px; --shadow: 0 8px 20px rgba(0,0,0,.06); }
-    *{box-sizing:border-box} body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;margin:0;background:#f7f8fb;color:#222}
-    .wrap{max-width:var(--maxw);margin:40px auto;padding:24px;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
-    h1{margin:0 0 6px} p.lead{margin:0 0 18px;color:#555}
-    form{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
-    label{font-size:.95rem;margin-bottom:6px;display:block;color:#333}
-    .field{display:flex;flex-direction:column}
-    input,textarea,button,select{font:inherit}
-    input,textarea,select{padding:12px 14px;border:1px solid #e2e5ea;border-radius:8px;background:#fff;outline:none}
-    input:focus,textarea:focus,select:focus{border-color:#6a8cff;box-shadow:0 0 0 3px rgba(106,140,255,.15)}
-    textarea{min-height:140px;resize:vertical}
-    .span-2{grid-column:1 / -1}
-    .row{display:flex;gap:var(--gap)}
-    .req{color:#e43d3d}
-    .hp{position:absolute !important;left:-99999px !important;opacity:0 !important;height:0 !important;width:0 !important;pointer-events:none}
-    .actions{display:flex;gap:10px;align-items:center}
-    button.primary{padding:12px 16px;border:none;border-radius:10px;background:#111;color:#fff;cursor:pointer}
-    button.primary:disabled{opacity:.6;cursor:not-allowed}
-    .note{font-size:.9rem;color:#666}
-    .toast{position:fixed;right:16px;bottom:16px;background:#111;color:#fff;padding:12px 14px;border-radius:10px;opacity:0;transform:translateY(10px);transition:.25s;box-shadow:var(--shadow)}
-    .toast.show{opacity:1;transform:translateY(0)}
-    .error{border-color:#e43d3d !important}
+    :root {
+      --gap: 14px;
+      --radius: 14px;
+      --maxw: 780px;
+      --shadow: 0 8px 24px rgba(0,0,0,.08);
+      --primary: linear-gradient(135deg,#6a8cff,#4e6ce9);
+      --primary-dark: #4457c8;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body {
+      font-family: 'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;
+      background: linear-gradient(135deg,#c74f4f,#5b5e63,#ffffff);
+      color:#222; min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
+      padding:40px 20px;
+    }
+    .wrap {
+      width:100%; max-width:var(--maxw);
+      padding:32px;
+      background:#ffffff;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      animation: fadeIn 1s ease;
+    }
+    h1 {
+      margin-bottom:6px;
+      font-size:2rem;
+      background:var(--primary);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    p.lead {margin-bottom:20px;color:#555;font-size:1rem;}
+    form {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:var(--gap);
+    }
+    .field {position:relative;}
+    label {
+      font-size:.9rem; color:#555; position:absolute;
+      left:14px; top:14px;
+      transition:all .3s ease; pointer-events:none;
+      background:#fff; padding:0 6px;
+    }
+    input,textarea,select {
+      font:inherit;width:100%;
+      padding:16px 14px 14px;
+      border:1px solid #dbe0ea;
+      border-radius:var(--radius);
+      background:#fff;outline:none;
+      transition:all .3s ease;
+    }
+    input:focus,textarea:focus,select:focus {
+      border-color:#ff0000;
+      box-shadow:0 0 0 4px rgba(106,140,255,.15);
+    }
+    input:focus+label,
+    input:not(:placeholder-shown)+label,
+    textarea:focus+label,
+    textarea:not(:placeholder-shown)+label {
+      top:-8px; left:10px; font-size:.75rem;
+      color:#4e6ce9; font-weight:500;
+    }
+    textarea {min-height:140px;resize:vertical;}
+    .span-2 {grid-column:1 / -1;}
+    .req{color:#ffffff}
+    .actions {display:flex;gap:12px;align-items:center;margin-top:10px;}
+    button.primary {
+      padding:14px 22px;border:none;border-radius:var(--radius);
+      background:var(--primary);color:#fff;cursor:pointer;
+      font-weight:500;font-size:1rem;
+      transition:.3s ease; position:relative;overflow:hidden;
+    }
+    button.primary:hover {transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.15);}
+    button.primary:disabled {opacity:.6;cursor:not-allowed;}
+    .note {font-size:.9rem;color:#666}
+    .toast {
+      position:fixed;right:16px;bottom:16px;
+      background:#111;color:#fff;padding:14px 18px;
+      border-radius:var(--radius);opacity:0;
+      transform:translateY(20px) scale(.9);
+      transition:.35s ease;box-shadow:var(--shadow);
+    }
+    .toast.show {opacity:1;transform:translateY(0) scale(1);}
+    .error {border-color:#e43d3d !important;}
+    /* Animations */
+    @keyframes fadeIn {
+      from {opacity:0; transform:translateY(20px);}
+      to {opacity:1; transform:translateY(0);}
+    }
     @media (max-width:720px){form{grid-template-columns:1fr}}
   </style>
 </head>
@@ -37,32 +105,32 @@
     <p class="lead">Have a question about EventSphere or want help planning? We’ll get back within 24–48 hours.</p>
 
     <form id="contactForm" novalidate aria-describedby="contact-note">
-      <!-- Honeypot (bots fill this; humans never see it) -->
-      <input type="text" name="website" id="website" class="hp" tabindex="-1" autocomplete="off" />
+      <!-- Honeypot -->
+      <input type="text" name="website" id="website" class="hp" tabindex="-1" autocomplete="off" style="display:none"/>
 
       <div class="field">
+        <input id="full_name" name="full_name" autocomplete="name" required placeholder=" "/>
         <label for="full_name">Full Name <span class="req">*</span></label>
-        <input id="full_name" name="full_name" autocomplete="name" required />
       </div>
 
       <div class="field">
+        <input id="email" name="email" type="email" autocomplete="email" required placeholder=" "/>
         <label for="email">Email <span class="req">*</span></label>
-        <input id="email" name="email" type="email" autocomplete="email" required />
       </div>
 
       <div class="field">
+        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder=" "/>
         <label for="phone">Phone</label>
-        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 9XXXXXXXXX" />
       </div>
 
       <div class="field">
+        <input id="subject" name="subject" required placeholder=" "/>
         <label for="subject">Subject <span class="req">*</span></label>
-        <input id="subject" name="subject" required />
       </div>
 
       <div class="field span-2">
+        <textarea id="message" name="message" required placeholder=" "></textarea>
         <label for="message">Message <span class="req">*</span></label>
-        <textarea id="message" name="message" required></textarea>
       </div>
 
       <div class="span-2 actions">
@@ -79,27 +147,28 @@
     const btn = document.getElementById('submitBtn');
     const toast = document.getElementById('toast');
 
-    function showToast(msg){ toast.textContent = msg; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 3500); }
-    function setLoading(state){ btn.disabled = state; btn.textContent = state ? 'Sending…' : 'Send Message'; }
-
-    function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+    function showToast(msg){ 
+      toast.textContent = msg; 
+      toast.classList.add('show'); 
+      setTimeout(()=>toast.classList.remove('show'), 3500); 
+    }
+    function setLoading(state){ 
+      btn.disabled = state; 
+      btn.textContent = state ? 'Sending…' : 'Send Message'; 
+    }
+    function validEmail(v){ return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v); }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      // simple client-side validation
       const data = Object.fromEntries(new FormData(form).entries());
       ['full_name','email','subject','message'].forEach(id=>document.getElementById(id).classList.remove('error'));
-
       let ok = true;
       if(!data.full_name?.trim()){ ok=false; document.getElementById('full_name').classList.add('error'); }
       if(!validEmail(data.email || '')){ ok=false; document.getElementById('email').classList.add('error'); }
       if(!data.subject?.trim()){ ok=false; document.getElementById('subject').classList.add('error'); }
       if(!data.message?.trim()){ ok=false; document.getElementById('message').classList.add('error'); }
       if(!ok){ showToast('Please fill all required fields.'); return; }
-
-      // bot check
-      if (data.website) { return; }
-
+      if (data.website) { return; } // bot check
       setLoading(true);
       try {
         const res = await fetch('/api/contact', {
@@ -110,12 +179,12 @@
         const json = await res.json();
         if (res.ok) {
           form.reset();
-          showToast('Thanks! Your message has been sent.');
+          showToast('✅ Thanks! Your message has been sent.');
         } else {
-          showToast(json?.error || 'Something went wrong. Please try again.');
+          showToast(json?.error || '⚠️ Something went wrong. Please try again.');
         }
       } catch (err) {
-        showToast('Network error. Please try again.');
+        showToast('🌐 Network error. Please try again.');
       } finally {
         setLoading(false);
       }
