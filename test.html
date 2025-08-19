@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -104,8 +104,8 @@
 </head>
 <body>
 
-  <!-- WHY CHOOSE EVENTSPHERE -->
-  <section id="why-eventsphere">
+  <! WHY CHOOSE EVENTSPHERE -->
+  <!--<section id="why-eventsphere">
     <div class="container">
       <h2>Why Choose EventSphere</h2>
       <p class="subtitle">Reliable planning, creative ideas, and stress-free execution.</p>
@@ -144,3 +144,179 @@
   </script>
 </body>
 </html>
+
+-->
+<!--html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EventSphere - Split Screen Animation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  Scroll spacer before animation 
+  <div class="spacer"></div>
+
+  Split screen section 
+  <section class="split-screen">
+    Left Video 
+    <div class="video-container fade-left">
+       For the left video
+<div class="chat-card left">
+  <p>🎉 Customer planning a birthday</p>
+</div>
+<video src="split1.webm" autoplay muted loop></video>
+    </div>
+     Right Video 
+  <div class="video-container fade-right">
+      For the right video
+ <div class="chat-card right">
+  <p>✅ Employee managing the event</p>
+</div>
+      <video src="split2.webm" autoplay muted loop></video>
+    </div>
+  </section>
+
+here is middle part
+
+<div style="text-align: center; font-family: 'Times New Roman', Times, serif; color: aliceblue; padding-top: 5%;" class="middle"><H1>hello fucking world</H1></div>
+
+Scroll spacer after animation
+  <div class="spacer"></div>
+
+  <script src="script.js"></script>
+</body>
+</html> -->
+
+<!--css
+<style>
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #111;
+  font-family: 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Spacer for scroll effect */
+.spacer {
+  height: 100vh;
+}
+
+/* Split Screen Layout */
+.split-screen {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  gap:50%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+/* Video Container Style */
+.video-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: all 1s ease;
+  transform: translateX(0);
+}
+
+/* Initial Transforms */
+.fade-left {
+  transform: translateX(-100px);
+}
+
+.fade-right {
+  transform: translateX(100px);
+}
+
+/* Active State - Fade In */
+.video-container.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Video Styling */
+video {
+  width: 90%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+/*chat box here*/
+/* Chat Card Style 
+.chat-card {
+  position: absolute;
+  max-width: 240px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+  animation: floatIn 1s ease forwards;
+}
+
+/* Position the chat bubbles 
+.chat-card.left {
+  top: 20px;
+  left: 20px;
+}
+
+.chat-card.right {
+  top: 20px;
+  right: 20px;
+}
+
+/* Chat float-in animation 
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+*/
+
+
+</style> -->
+<!--
+js
+<script>
+  // Get all video containers
+const containers = document.querySelectorAll('.video-container');
+
+// Create Intersection Observer
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    } else {
+      entry.target.classList.remove('active'); // For fade-out
+    }
+  });
+}, {
+  threshold: 0.3
+});
+
+// Observe each container
+containers.forEach(container => observer.observe(container));
+
+</script>
+-->
