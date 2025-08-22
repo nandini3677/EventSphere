@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - Inquiries</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f6f9; }
+    h1 { color: #333; }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; }
+    th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+    th { background: #007bff; color: white; }
+    tr:hover { background: #f1f1f1; }
+  </style>
+</head>
+<body>
+  <h1>📋 Submitted Inquiries</h1>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Full Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Event Type</th>
+      <th>Message</th>
+      <th>Created At</th>
+    </tr>
+    {% for inquiry in inquiries %}
+    <tr>
+      <td>{{ inquiry.id }}</td>
+      <td>{{ inquiry.full_name }}</td>
+      <td>{{ inquiry.email }}</td>
+      <td>{{ inquiry.phone }}</td>
+      <td>{{ inquiry.event_type }}</td>
+      <td>{{ inquiry.message }}</td>
+      <td>{{ inquiry.created_at }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
