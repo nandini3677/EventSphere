@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get In Touch • EventSphere</title>
+<style>
+:root {
+  --primary: #FF6B6B;
+  --secondary: #4ECDC4;
+  --dark: #292F36;
+  --light: #F7FFF7;
+  --accent: #FFE66D;
+  --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+* {margin:0; padding:0; box-sizing:border-box;}
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--dark);
+  color: var(--light);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 20%);
+  position: relative;
+  overflow: hidden;
+}
+body::before {
+  content: '';
+  position: absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: url('https://placehold.co/1920x1080') center/cover no-repeat;
+  opacity:0.15; z-index:-1;
+}
+.contact-container {
+  width:90%; max-width:1000px;
+  display:grid; grid-template-columns:1fr 1.5fr;
+  background: rgba(41, 47, 54, 0.9);
+  border-radius:20px; overflow:hidden;
+  box-shadow:0 25px 50px -12px rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* --- Left Side Visual --- */
+.visual-section {
+  position:relative; overflow:hidden;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding:2rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+.visual-overlay {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+  z-index:1;
+}
+.visual-content {
+  position:relative; z-index:2; height:100%;
+  display:flex; flex-direction:column; justify-content:space-between;
+}
+.visual-title { font-size:2.2rem; font-weight:700; margin-bottom:1rem; text-shadow:0 2px 4px rgba(0,0,0,0.3); color:white; }
+.visual-text { font-size:1rem; opacity:0.9; line-height:1.6; margin-bottom:2rem; color:white; }
+.event-icons { display:flex; gap:1rem; margin-bottom:2rem; }
+.event-icon {
+  display:flex; align-items:center; justify-content:center;
+  width:50px; height:50px;
+  background: rgba(255,255,255,0.2); border-radius:50%; font-size:1.5rem;
+  transition: var(--transition); cursor:pointer;
+}
+.event-icon:hover { transform: translateY(-5px) scale(1.2); background: rgba(255,255,255,0.3); }
+.social-links { display:flex; gap:1rem; }
+.social-link {
+  color:white; font-size:1.5rem; text-decoration:none; transition: var(--transition);
+}
+.social-link:hover { color: var(--accent); transform: translateY(-3px); }
+
+/* --- Form Section --- */
+.form-section { padding:3rem; position:relative; }
+.form-header { margin-bottom:2rem; }
+.form-title { font-size:2rem; font-weight:700; margin-bottom:0.5rem; color: var(--accent); }
+.form-subtitle { font-size:1rem; opacity:0.8; }
+.form-group { margin-bottom:1.5rem; position:relative; }
+input.form-input, textarea.form-input { width:100%; padding:15px 0; background:transparent; border:none; border-bottom:1px solid rgba(255,255,255,0.2); font-size:1rem; color:white; transition: var(--transition); }
+input.form-input:focus, textarea.form-input:focus { outline:none; border-bottom-color: var(--primary); }
+textarea.form-input { min-height:100px; resize: vertical; }
+.form-label {
+  position:absolute; top:15px; left:0;
+  pointer-events:none; transition: var(--transition); color: rgba(255,255,255,0.6);
+}
+.form-input:focus+.form-label, .form-input:not(:placeholder-shown)+.form-label {
+  transform: translateY(-20px); font-size:0.8rem; color: var(--primary);
+}
+/* Select dropdown styling */
+select.form-input {
+  width:100%; padding:12px; border-radius:8px;
+  border:1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08);
+  color:white; cursor:pointer; appearance:none;
+  max-height:180px; overflow-y:auto;
+}
+select.form-input option { background: var(--dark); color:white; }
+.event-label { font-weight:600; font-size:0.95rem; color:#e0e0ff; display:block; margin-bottom:6px; }
+select.form-input::-webkit-scrollbar { width:8px; }
+select.form-input::-webkit-scrollbar-thumb { background:var(--primary); border-radius:8px; }
+.submit-btn {
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  color:white; border:none; padding:15px 40px; font-size:1rem; font-weight:600;
+  border-radius:50px; cursor:pointer; transition: var(--transition); margin-top:1rem;
+  box-shadow:0 4px 15px rgba(255,107,107,0.4);
+}
+.submit-btn:hover { transform: translateY(-3px); box-shadow:0 6px 20px rgba(255,107,107,0.6); }
+.floating-elements { position:absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; pointer-events:none; z-index:-1; }
+.floating-element { position:absolute; opacity:0.05; border-radius:50%; animation: float 15s infinite linear; }
+@keyframes float { 0%{ transform:translateY(0) rotate(0deg); opacity:0.05; } 50%{ opacity:0.15; } 100%{ transform:translateY(-100px) rotate(360deg); opacity:0.05; } }
+@keyframes fadeIn { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+@media (max-width:768px) { .contact-container { grid-template-columns:1fr; } .visual-section{display:none;} }
+
+</style>
+</head>
+<body>
+<div class="contact-container">
+
+  <!-- Left Side -->
+  <div class="visual-section">
+    <div class="visual-overlay"></div>
+    <div class="visual-content">
+      <div>
+        <h2 class="visual-title">Let's Create Something Amazing</h2>
+        <p class="visual-text">Whether you're planning a corporate event, wedding, or private party, our team is ready to bring your vision to life with flawless execution.</p>
+        <div class="event-icons">
+          <div class="event-icon" data-event="wedding" title="Wedding">🍾</div>
+          <div class="event-icon" data-event="corporate" title="Corporate Event">🎯</div>
+          <div class="event-icon" data-event="birthday" title="Birthday Party">🎉</div>
+          <div class="event-icon" data-event="concert" title="Concert">🎤</div>
+        </div>
+      </div>
+      <div class="social-links">
+        <a href="tel:9325474627" class="social-link">📞</a>
+        <a href="mailto:info@eventsphere.com" class="social-link">✉️</a>
+        <a href="https://wa.me/9022645383" target="_blank" class="social-link">💬</a>
+        <a href="https://instagram.com/yourpage" target="_blank" class="social-link">📱</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side Form -->
+  <div class="form-section">
+    <div class="floating-elements">
+      <div class="floating-element" style="width:100px;height:100px;background:var(--primary);top:10%;left:20%;"></div>
+      <div class="floating-element" style="width:80px;height:80px;background:var(--secondary);top:60%;left:70%;animation-delay:-5s;"></div>
+      <div class="floating-element" style="width:60px;height:60px;background:var(--accent);top:30%;left:50%;animation-delay:-10s;"></div>
+    </div>
+
+    <div class="form-header">
+      <h2 class="form-title">Get In Touch</h2>
+      <p class="form-subtitle">Fill out the form and our team will contact you within 24 hours</p>
+    </div>
+
+    <form id="contactForm">
+      <div class="form-group">
+        <input type="text" id="full_name" class="form-input" required placeholder=" ">
+        <label for="full_name" class="form-label">Full Name</label>
+      </div>
+
+      <div class="form-group">
+        <input type="email" id="email" class="form-input" required placeholder=" ">
+        <label for="email" class="form-label">Email Address</label>
+      </div>
+
+      <div class="form-group">
+        <input type="tel" id="phone" class="form-input" placeholder=" ">
+        <label for="phone" class="form-label">Phone Number (Optional)</label>
+      </div>
+
+      <div class="form-group">
+        <label for="event_type" class="event-label">Event Type</label>
+        <select id="event_type" name="event_type" class="form-input" required>
+          <option value="" disabled selected>Select an event</option>
+          <option value="wedding">Wedding</option>
+          <option value="corporate">Corporate Event</option>
+          <option value="birthday">Birthday Party</option>
+          <option value="concert">Concert</option>
+          <option value="conference">Conference</option>
+          <option value="festival">Festival</option>
+          <option value="exhibition">Exhibition</option>
+          <option value="seminar">Seminar</option>
+          <option value="workshop">Workshop</option>
+          <option value="product_launch">Product Launch</option>
+          <option value="sports_event">Sports Event</option>
+          <option value="trade_show">Trade Show</option>
+          <option value="fashion_show">Fashion Show</option>
+          <option value="charity_event">Charity Event</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <textarea id="message" class="form-input" required placeholder=" "></textarea>
+        <label for="message" class="form-label">Tell Us About Your Event</label>
+      </div>
+
+      <button type="submit" class="submit-btn">Send Inquiry</button>
+    </form>
+  </div>
+</div>
+
+<script>
+// Submit form
+const form = document.getElementById('contactForm');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = {
+    full_name: document.getElementById('full_name').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    event_type: document.getElementById('event_type').value,
+    message: document.getElementById('message').value.trim()
+  };
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+  submitBtn.textContent = 'Sending...';
+  submitBtn.disabled = true;
+
+  try {
+    const res = await fetch('/submit', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(formData)
+    });
+    const data = await res.json();
+    if(data.success) {
+      alert(data.message || '✅ Your inquiry has been sent successfully!');
+      form.reset();
+    } else alert('Error: ' + (data.message || 'Something went wrong.'));
+  } catch(err) { alert('❌ Failed to send. Please try again.'); }
+  finally { submitBtn.textContent = originalText; submitBtn.disabled = false; }
+});
+
+// Make event icons interactive
+const icons = document.querySelectorAll('.event-icon');
+const select = document.getElementById('event_type');
+icons.forEach(icon=>{
+  icon.addEventListener('click', ()=>{
+    const value = icon.getAttribute('data-event');
+    select.value = value;
+    icons.forEach(ic=>ic.style.transform='translateY(0) scale(1)');
+    icon.style.transform='translateY(-5px) scale(1.3)';
+  });
+});
+</script>
+</body>
+</html>
