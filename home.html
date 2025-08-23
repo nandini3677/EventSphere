@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gabriela&display=swap" rel="stylesheet">
+
     </head>
     <!--here starts html-->
 <body> 
@@ -123,38 +127,62 @@
   <!-- Left Video -->
   <div class="video-wrapper left" id="left-video-wrapper">
     <video autoplay muted loop playsinline>
-      <source src="split1.webm" type="video/webm" />
+      <source src="new-video2.mp4" type="video/webm" />
     </video>
     <div class="floaters" id="left-floaters">
-      <div class="floating-box">Twice a month hello to the real world</div>
-      <div class="floating-box">Weekly updates</div>
-      <div class="floating-box">Smart tips</div>
-      <img src="bg-whyeventsphere2.jpg" class="floating-image" />
-      <img src="bg-whyeventsphere2.jpg" class="floating-image" />
-      <img src="bg-whyeventsphere2.jpg" class="floating-image" />
+      <div class="floating-box">in-person meetings</div>
+      <div  class="floating-box">updates you with daily task & and schedules</div>
+      <div class="floating-box">Ensures your privacy & security</div>
+      <img src="media/meeting.jpg" class="floating-image" />
+      <img src="media/tick.jpg" class="floating-image" />
+      <img src="media/secure-lock.jpg" class="floating-image" />
     </div>
   </div>
 
   <!-- Text -->
   <div class="text-block">
-    <h2>Your Heading Here</h2>
-    <p>This is a description or paragraph that sits between the two videos. It remains unobstructed and clearly visible at all times.</p>
+    <h2>💡<br>Key Features of EventSphere</h2>
+    <p><b>EventSphere provides dynamic role-based login, allowing users to access personalized dashboards tailored to their specific roles, ensuring both security and operational efficiency. It enables seamless messaging between customers and employees, maintaining clear, direct communication that supports smooth coordination throughout the event planning and execution process.<br><br>
+
+To support efficient event management, EventSphere includes live event progress tracking, allowing clients and organizers to monitor each stage in real time. Its workflow-driven event pipeline ensures that every task is handled systematically, reducing the chance of oversight and keeping the entire process on track from beginning to end.<br><br>
+
+Administrators benefit from full control over the platform through advanced access settings, giving them the ability to manage users, content, and workflows with ease. The platform features a clean, responsive user interface that adapts seamlessly across all devices. Clients also receive daily updates about their events—whether it’s a promotion, or a virtual or in-person meetup—customized to their preferences and protected by robust security protocols.</b>
+</p>
   </div>
 
   <!-- Right Video -->
   <div class="video-wrapper right" id="right-video-wrapper">
     <video autoplay muted loop playsinline>
-      <source src="split2.webm" type="video/webm" />
+      <source src="new-video.mp4" type="video/webm" />
     </video>
     <div class="floaters" id="right-floaters">
-      <div class="floating-box"> here are Monthly insights</div>
-      <div class="floating-box">Daily alerts</div>
-      <div class="floating-box">Expert advice</div>
-      <img src="ES-LOGO.jpeg" class="floating-image" />
-      <img src="ES-LOGO.jpeg" class="floating-image" />
+      <div class="floating-box"> Virtual Meetings</div>
+      <div class="floating-box">Assists you manage easy & Rapid</div>
+      <div class="floating-box">Promotes you & your business</div>
+      <img src="media/Virtual-Meeting.jpg" class="floating-image" />
+      <img src="media/promotion.jpg" class="floating-image" />
     </div>
   </div>
 </div>
+<!--copy meet event sphere-->
+
+<section class="meet-event-sphere">
+  <div class="animation-container">
+    <h2 class="animated-heading"> 🚀 EventSphere's Future Scope</h2><br><br>
+    <p class="animated-paragraph">
+    Exciting features are on the horizon to make EventSphere even more powerful and user-friendly. Here's a glimpse of what's in development: <br><br>
+<b>• AI-based event suggestions to help you plan smarter and faster.<br>
+
+• A dedicated mobile app for on-the-go event management.<br>
+
+• Integrated invoice and e-payment system for seamless transactions.<br>
+
+• Vendor integrations to connect with trusted partners directly through the platform.</b><br><br>
+
+These upcoming enhancements are designed to take your event experience to the next level—smarter, faster, and more connected.
+    </p>
+  </div>
+</section>
 
 </main>
      <footer>when we will add content to main, the footer will settle down</footer>
@@ -445,18 +473,32 @@ footer {
     }
 
     /*here is LF FLOAT BOX/IMAGE 2VIDEO CSS*/
-     * { margin: 0; padding: 0; box-sizing: border-box; }
+     * { margin: 0; padding: 0; box-sizing: border-box;  }
     
     .v-container {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 40px;
-      max-width: 1400px;
-      width: 100%;
+      gap: 80px;
       position: relative;
-      padding-top: 6%;
-      padding-left: 7%;
+      padding-top: 2%;
+      padding-left: 1.70%;
+      width: 98.93vw;
+      height: 110vh;
+
+      background: linear-gradient(-45deg, #080808, #221402, #d3a77c, #381e04);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+  border-radius: 0px; /* optional */
+  overflow: hidden; /* keep video inside */
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+
+
     }
 
     .video-wrapper {
@@ -470,6 +512,7 @@ footer {
       opacity: 0;
       transform: translateY(40px);
       transition: opacity 1s ease, transform 1s ease;
+      z-index: 2;
     }
 
     .video-wrapper.visible {
@@ -491,16 +534,19 @@ footer {
       text-align: center;
       z-index: 2;
       pointer-events: none;
+      color: #381e04;
+      font-family: 'Times New Roman', Times, serif;
     }
 
     .text-block h2 {
       font-size: 2.2rem;
       margin-bottom: 15px;
+      text-align: center;
     }
 
     .text-block p {
       font-size: 1rem;
-      color: #ccc;
+      color: beige;
     }
 
     .floaters {
@@ -511,6 +557,9 @@ footer {
       height: 100%;
       pointer-events: none;
       z-index: 3;
+      font-family: "gabriela", serif;
+      font-style: normal;
+      color: #381e04;
     }
 
     .floating-box,
@@ -527,15 +576,15 @@ footer {
     }
 
     .floating-box {
-      background: rgba(255, 255, 255, 0.95);
-      color: #000;
+      background: rgba(135, 12, 249, 0.95), blue;
+      color: beige;
       padding: 5px 12px;
       border-radius: 8px;
       font-size: 0.85rem;
       white-space: nowrap;
       height: 30px;
       line-height: 30px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 20px black;
     }
 
     .floating-image {
@@ -590,20 +639,22 @@ footer {
 //here starts meet eventsphere js
 
 function handleScrollAnimation() {
-  const container = document.querySelector('.animation-container');
-  const rect = container.getBoundingClientRect();
+  const containers = document.querySelectorAll('.animation-container');
   const windowHeight = window.innerHeight;
 
-  const elements = container.querySelectorAll('.animated-heading, .animated-paragraph');
+  containers.forEach(container => {
+    const rect = container.getBoundingClientRect();
+    const elements = container.querySelectorAll('.animated-heading, .animated-paragraph');
 
-  elements.forEach(el => {
-    if(rect.top < windowHeight * 0.75 && rect.bottom > windowHeight * 0.25){
-      el.classList.add('in-view');
-      el.classList.remove('out-view');
-    } else {
-      el.classList.add('out-view');
-      el.classList.remove('in-view');
-    }
+    elements.forEach(el => {
+      if (rect.top < windowHeight * 0.75 && rect.bottom > windowHeight * 0.25) {
+        el.classList.add('in-view');
+        el.classList.remove('out-view');
+      } else {
+        el.classList.add('out-view');
+        el.classList.remove('in-view');
+      }
+    });
   });
 }
 
@@ -652,12 +703,12 @@ const cards = document.querySelectorAll('#why-eventsphere .usp-card');
 
     // LEFT FLOATERS
     const leftPositions = [
-      { top: '85%', left: '40%' }, // Twice a month
-      { top: '42%', left: '-10%' }, // Weekly updates
-      { top: '75%', left: '10%' },  // Smart tips
-      { top: '10%', left: '80%', width: '120px', height: '100px' },   // Image 1
-      { top: '2%', left: '-8%', width: '110px', height: '90px' },   // Image 2
-      { top: '55%', left: '-15%', width: '130px', height: '110px' }  // Image 3
+      { top: '63%', left: '49%' }, // Twice a month
+      { top: '15%', left: '-10%' }, // Weekly updates
+      { top: '79%', left: '10%' },  // Smart tips
+      { top: '45%', left: '80%', width: '120px', height: '100px' },   // Image 1
+      { top: '-2%', left: '-8%', width: '110px', height: '90px' },   // Image 2
+      { top: '59%', left: '-15%', width: '130px', height: '110px' }  // Image 3
     ];
 
     leftFloaters.forEach((el, index) => {
@@ -673,11 +724,11 @@ const cards = document.querySelectorAll('#why-eventsphere .usp-card');
 
     // RIGHT FLOATERS
     const rightPositions = [
-      { top: '30%', right: '15%' }, // Monthly insights
-      { top: '5%', right: '10%' },  // Daily alerts
-      { top: '40%', right: '-15%' }, // Expert advice
-      { top: '12%', right: '20%', width: '120px', height: '100px' }, // Image 1
-      { top: '70%', right: '5%', width: '130px', height: '110px' }   // Image 2
+      { top: '15%', right: '-21%' }, // Monthly insights
+      { top: '5%', right: '35%' },  // Daily alerts
+      { top: '75%', right: '45%' }, // Expert advice
+      { top: '22%', right: '-17%', width: '120px', height: '100px' }, // Image 1
+      { top: '70%', right: '-15%', width: '130px', height: '110px' }   // Image 2
     ];
 
     rightFloaters.forEach((el, index) => {

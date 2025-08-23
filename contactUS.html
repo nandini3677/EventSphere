@@ -1,125 +1,483 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact Us • EventSphere</title>
-  <meta name="csrf-token" content="{{ csrf_token | default('') }}">
-  <style>
-    :root { --gap: 12px; --radius: 10px; --maxw: 760px; --shadow: 0 8px 20px rgba(0,0,0,.06); }
-    *{box-sizing:border-box} body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;margin:0;background:#f7f8fb;color:#222}
-    .wrap{max-width:var(--maxw);margin:40px auto;padding:24px;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
-    h1{margin:0 0 6px} p.lead{margin:0 0 18px;color:#555}
-    form{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
-    label{font-size:.95rem;margin-bottom:6px;display:block;color:#333}
-    .field{display:flex;flex-direction:column}
-    input,textarea,button,select{font:inherit}
-    input,textarea,select{padding:12px 14px;border:1px solid #e2e5ea;border-radius:8px;background:#fff;outline:none}
-    input:focus,textarea:focus,select:focus{border-color:#6a8cff;box-shadow:0 0 0 3px rgba(106,140,255,.15)}
-    textarea{min-height:140px;resize:vertical}
-    .span-2{grid-column:1 / -1}
-    .row{display:flex;gap:var(--gap)}
-    .req{color:#e43d3d}
-    .hp{position:absolute !important;left:-99999px !important;opacity:0 !important;height:0 !important;width:0 !important;pointer-events:none}
-    .actions{display:flex;gap:10px;align-items:center}
-    button.primary{padding:12px 16px;border:none;border-radius:10px;background:#111;color:#fff;cursor:pointer}
-    button.primary:disabled{opacity:.6;cursor:not-allowed}
-    .note{font-size:.9rem;color:#666}
-    .toast{position:fixed;right:16px;bottom:16px;background:#111;color:#fff;padding:12px 14px;border-radius:10px;opacity:0;transform:translateY(10px);transition:.25s;box-shadow:var(--shadow)}
-    .toast.show{opacity:1;transform:translateY(0)}
-    .error{border-color:#e43d3d !important}
-    @media (max-width:720px){form{grid-template-columns:1fr}}
-  </style>
-</head>
-<body>
-  <div class="wrap" role="region" aria-labelledby="contact-heading">
-    <h1 id="contact-heading">Contact Us</h1>
-    <p class="lead">Have a question about EventSphere or want help planning? We’ll get back within 24–48 hours.</p>
-
-    <form id="contactForm" novalidate aria-describedby="contact-note">
-      <!-- Honeypot (bots fill this; humans never see it) -->
-      <input type="text" name="website" id="website" class="hp" tabindex="-1" autocomplete="off" />
-
-      <div class="field">
-        <label for="full_name">Full Name <span class="req">*</span></label>
-        <input id="full_name" name="full_name" autocomplete="name" required />
-      </div>
-
-      <div class="field">
-        <label for="email">Email <span class="req">*</span></label>
-        <input id="email" name="email" type="email" autocomplete="email" required />
-      </div>
-
-      <div class="field">
-        <label for="phone">Phone</label>
-        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 9XXXXXXXXX" />
-      </div>
-
-      <div class="field">
-        <label for="subject">Subject <span class="req">*</span></label>
-        <input id="subject" name="subject" required />
-      </div>
-
-      <div class="field span-2">
-        <label for="message">Message <span class="req">*</span></label>
-        <textarea id="message" name="message" required></textarea>
-      </div>
-
-      <div class="span-2 actions">
-        <button id="submitBtn" class="primary" type="submit">Send Message</button>
-        <span id="contact-note" class="note">By submitting, you agree to our terms.</span>
-      </div>
-    </form>
-  </div>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <script>
-    const form = document.getElementById('contactForm');
-    const btn = document.getElementById('submitBtn');
-    const toast = document.getElementById('toast');
-
-    function showToast(msg){ toast.textContent = msg; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 3500); }
-    function setLoading(state){ btn.disabled = state; btn.textContent = state ? 'Sending…' : 'Send Message'; }
-
-    function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      // simple client-side validation
-      const data = Object.fromEntries(new FormData(form).entries());
-      ['full_name','email','subject','message'].forEach(id=>document.getElementById(id).classList.remove('error'));
-
-      let ok = true;
-      if(!data.full_name?.trim()){ ok=false; document.getElementById('full_name').classList.add('error'); }
-      if(!validEmail(data.email || '')){ ok=false; document.getElementById('email').classList.add('error'); }
-      if(!data.subject?.trim()){ ok=false; document.getElementById('subject').classList.add('error'); }
-      if(!data.message?.trim()){ ok=false; document.getElementById('message').classList.add('error'); }
-      if(!ok){ showToast('Please fill all required fields.'); return; }
-
-      // bot check
-      if (data.website) { return; }
-
-      setLoading(true);
-      try {
-        const res = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        const json = await res.json();
-        if (res.ok) {
-          form.reset();
-          showToast('Thanks! Your message has been sent.');
-        } else {
-          showToast(json?.error || 'Something went wrong. Please try again.');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get In Touch • EventSphere</title>
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --dark: #292F36;
+            --light: #F7FFF7;
+            --accent: #FFE66D;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-      } catch (err) {
-        showToast('Network error. Please try again.');
-      } finally {
-        setLoading(false);
-      }
-    });
-  </script>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 20%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://placehold.co/1920x1080') center/cover no-repeat;
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        .contact-container {
+            width: 90%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            background: rgba(41, 47, 54, 0.9);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* --- Left Side Visual --- */
+        .visual-section {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        .visual-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7));
+            z-index: 1;
+        }
+
+        .visual-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .visual-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .visual-text {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .event-icons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .event-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .event-icon:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* --- Form Section --- */
+        .form-section {
+            padding: 3rem;
+            position: relative;
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .form-subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        /* Inputs & textarea */
+        input.form-input,
+        textarea.form-input {
+            width: 100%;
+            padding: 15px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1rem;
+            color: white;
+            transition: var(--transition);
+        }
+
+        input.form-input:focus,
+        textarea.form-input:focus {
+            outline: none;
+            border-bottom-color: var(--primary);
+        }
+
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Floating labels */
+        .form-label {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-input:focus+.form-label,
+        .form-input:not(:placeholder-shown)+.form-label {
+            transform: translateY(-20px);
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+
+        /* Select dropdown styling */
+        select.form-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        select.form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        select.form-input option {
+            background: var(--dark);
+            color: white;
+        }
+
+        /* Special label for select */
+        .event-label {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #e0e0ff;
+            display: block;
+            margin-bottom: 6px;
+            /* <-- spacing so it doesn’t merge */
+        }
+
+        /* Make select look consistent */
+        select.form-input {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 12px;
+            border-radius: 8px;
+            appearance: none;
+            cursor: pointer;
+            color: white;
+        }
+
+
+        /* Custom dropdown arrow */
+        .form-group select.form-input {
+            background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+
+        /* Submit button */
+        .submit-btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        /* Floating elements */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            opacity: 0.05;
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.05;
+            }
+
+            50% {
+                opacity: 0.15;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0.05;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-section {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contact-container">
+        <!-- Left Side -->
+        <div class="visual-section">
+            <div class="visual-overlay"></div>
+            <div class="visual-content">
+                <div>
+                    <h2 class="visual-title">Let's Create Something Amazing</h2>
+                    <p class="visual-text">
+                        Whether you're planning a corporate event, wedding, or private party,
+                        our team is ready to bring your vision to life with flawless execution.
+                    </p>
+                    <div class="event-icons">
+                        <div class="event-icon">🎯</div>
+                        <div class="event-icon">🎤</div>
+                        <div class="event-icon">🍾</div>
+                        <div class="event-icon">🎉</div>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link">📱</a>
+                    <a href="#" class="social-link">✉️</a>
+                    <a href="#" class="social-link">💬</a>
+                    <a href="#" class="social-link">📞</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side Form -->
+        <div class="form-section">
+            <div class="floating-elements">
+                <div class="floating-element"
+                    style="width: 100px; height: 100px; background: var(--primary); top: 10%; left: 20%;"></div>
+                <div class="floating-element"
+                    style="width: 80px; height: 80px; background: var(--secondary); top: 60%; left: 70%; animation-delay: -5s;">
+                </div>
+                <div class="floating-element"
+                    style="width: 60px; height: 60px; background: var(--accent); top: 30%; left: 50%; animation-delay: -10s;">
+                </div>
+            </div>
+
+            <div class="form-header">
+                <h2 class="form-title">Get In Touch</h2>
+                <p class="form-subtitle">Fill out the form and our team will contact you within 24 hours</p>
+            </div>
+
+            <form id="contactForm">
+                <div class="form-group">
+                    <input type="text" id="full_name" class="form-input" required placeholder=" ">
+                    <label for="full_name" class="form-label">Full Name</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" id="email" class="form-input" required placeholder=" ">
+                    <label for="email" class="form-label">Email Address</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="tel" id="phone" class="form-input" placeholder=" ">
+                    <label for="phone" class="form-label">Phone Number (Optional)</label>
+                </div>
+
+                <!-- Event Type (fixed so label doesn't overlap) -->
+                <div class="form-group">
+                    <label for="event_type" class="event-label">Event Type</label>
+                    <select id="event_type" name="event_type" class="form-input" required>
+                        <option value="" disabled selected>Select an event</option>
+                        <option value="wedding">Wedding</option>
+                        <option value="corporate">Corporate Event</option>
+                        <option value="birthday">Birthday Party</option>
+                        <option value="concert">Concert</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <textarea id="message" class="form-input" required placeholder=" "></textarea>
+                    <label for="message" class="form-label">Tell Us About Your Event</label>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Inquiry</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('contactForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                full_name: document.getElementById('full_name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                event_type: document.getElementById('event_type').value,
+                message: document.getElementById('message').value.trim()
+            };
+
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            try {
+                const res = await fetch('/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    alert(data.message || "✅ Your inquiry has been sent successfully!");
+                    form.reset();
+                } else {
+                    alert("Error: " + (data.message || "Something went wrong."));
+                }
+
+            } catch (error) {
+                alert("❌ Failed to send. Please try again.");
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
 </body>
+
 </html>
