@@ -409,14 +409,14 @@
 
                 <div class="form-group">
                     <input type="tel" id="phone" class="form-input" placeholder=" ">
-                    <label for="phone" class="form-label">Phone Number (Optional)</label>
+                    <label for="phone" class="form-label">Phone Number</label>
                 </div>
 
                 <!-- Event Type (fixed so label doesn't overlap) -->
                 <div class="form-group">
                     <label for="event_type" class="event-label">Event Type</label>
                     <select id="event_type" name="event_type" class="form-input" required>
-                        <option value="" disabled selected>Select an event</option>
+                        <option value="" disabled selected>Select an event (optional)</option>
                         <option value="wedding">Wedding</option>
                         <option value="corporate">Corporate Event</option>
                         <option value="birthday">Birthday Party</option>
@@ -427,7 +427,7 @@
 
                 <div class="form-group">
                     <textarea id="message" class="form-input" required placeholder=" "></textarea>
-                    <label for="message" class="form-label">Tell Us About Your Event</label>
+                    <label for="message" class="form-label">Tell Us About Your Event (optional)</label> the form should be able to submit without inserting optionals as well.
                 </div>
 
                 <button type="submit" class="submit-btn">Send Inquiry</button>

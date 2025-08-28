@@ -321,7 +321,7 @@ containers.forEach(container => observer.observe(container));
 </script>
 -->
 
-<!--html-->
+<!--html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -458,7 +458,7 @@ containers.forEach(container => observer.observe(container));
 <body>
 
 <div class="v-container">
-  <!-- Left Video -->
+  <!-- Left Video 
   <div class="video-wrapper left" id="left-video-wrapper">
     <video autoplay muted loop playsinline>
       <source src="split1.webm" type="video/webm" />
@@ -473,13 +473,13 @@ containers.forEach(container => observer.observe(container));
     </div>
   </div>
 
-  <!-- Text -->
+  <!-- Text
   <div class="text-block">
     <h2>Your Heading Here</h2>
     <p>This is a description or paragraph that sits between the two videos. It remains unobstructed and clearly visible at all times.</p>
   </div>
 
-  <!-- Right Video -->
+  <!-- Right Video 
   <div class="video-wrapper right" id="right-video-wrapper">
     <video autoplay muted loop playsinline>
       <source src="split2.webm" type="video/webm" />
@@ -559,7 +559,925 @@ containers.forEach(container => observer.observe(container));
 </script>
 
 </body>
-</html>
+</html> -->
+
+
+<!--
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Our Blockbusters — Organizers</title>
+  <style>
+    :root{
+      --brown-900:#2d1b11;
+      --brown-700:#6b4226;
+      --brown-500:#a76b43;
+      --beige:#e8d3be;
+      --muted:#c9a46c;
+      --glass: rgba(255,255,255,0.03);
+      --card-dark:#0f0f10;
+      --accent: rgba(215,178,150,0.12);
+      --signup-link: #d2b48c;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
+    /* Section */
+    .blockbusters{
+      position:relative;
+      background:#070707; /* black base */
+      color:var(--beige);
+      padding:64px 24px 90px;
+      overflow:hidden;
+    }
+
+    /* animated decorative shapes */
+    .bg-ribbon{
+      position:absolute; inset:-20% -30%;
+      background:
+        radial-gradient(600px 200px at 10% 15%, rgba(167,107,67,0.07), transparent 12%),
+        radial-gradient(700px 300px at 90% 80%, rgba(215,178,150,0.04), transparent 16%);
+      transform: rotate(4deg);
+      filter: blur(28px);
+      animation: floatRibbons 22s ease-in-out infinite;
+      z-index:0;
+      pointer-events:none;
+    }
+    @keyframes floatRibbons{
+      0%{ transform: translateY(-3%) rotate(0deg) }
+      50%{ transform: translateY(3%) rotate(2deg) }
+      100%{ transform: translateY(-3%) rotate(0deg) }
+    }
+
+    /* subtle particle dots */
+    .particle { position:absolute; width:8px; height:8px; border-radius:50%; background:var(--muted); opacity:.08; filter: blur(1px); }
+    .particle.p2{ width:6px; height:6px; left:12%; top:18%; animation: drift 9s linear infinite; }
+    .particle.p3{ left:80%; top:14%; animation: drift 14s linear infinite; opacity:.06; }
+    .particle.p4{ left:55%; top:78%; animation: drift 12s linear infinite; opacity:.05; }
+    @keyframes drift{ 0%{transform:translateY(0)} 50%{transform:translateY(-30px)} 100%{transform:translateY(0)} }
+
+    .wrap{ max-width:1250px; margin:0 auto; position:relative; z-index:2; }
+
+    /* heading with shimmer */
+    .heading{
+      font-size:clamp(28px,4.2vw,44px);
+      font-weight:900;
+      letter-spacing:1px;
+      margin:4px 0 22px;
+      display:inline-block;
+      line-height:1;
+      background: linear-gradient(90deg, #cfa77a, #f6e6d7 40%, #9c6a3f 70%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      background-size:200% 100%;
+      animation: shine 4s linear infinite;
+      text-shadow: 0 6px 28px rgba(0,0,0,0.7);
+    }
+    @keyframes shine{ 0%{ background-position:0% 50% } 50%{ background-position:100% 50% } 100%{ background-position:0% 50% } }
+
+    /* Subheading style */
+    .section-title{ margin:34px 0 14px; font-size:20px; color:var(--muted); font-weight:700; text-align:left; }
+
+    /* organizer rows (stacked vertically) */
+    .organizer-row{
+      display:flex; gap:20px; align-items:flex-start;
+      overflow:auto; padding:18px 6px; scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch; margin-bottom:8px;
+    }
+    .organizer-row::-webkit-scrollbar{ height:8px; }
+    .organizer-row::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.06); border-radius:20px; }
+
+    /* card */
+    .card{
+      --w:300px;
+      min-width:var(--w);
+      max-width:var(--w);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+      border-radius:18px; padding:18px; box-sizing:border-box;
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      position:relative; scroll-snap-align:start;
+      transform: translateY(28px) scale(.98); opacity:0;
+      transition: transform .6s cubic-bezier(.2,.9,.2,1), box-shadow .3s, opacity .6s;
+      overflow:hidden;
+    }
+    .card.in-view{ transform: translateY(0px) scale(1); opacity:1; }
+    .card:hover{ transform: translateY(-14px) scale(1.03); box-shadow: 0 22px 40px rgba(107,66,38,0.45); }
+
+    /* profile circle: 2cm radius => diameter 4cm */
+    .profile{
+      width:4cm; height:4cm; border-radius:50%;
+      object-fit:cover; display:block; margin:0 auto 12px;
+      border:6px solid var(--beige); box-shadow: 0 10px 22px rgba(167,107,67,0.12), 0 0 36px rgba(215,178,150,0.06);
+      background: linear-gradient(180deg,var(--brown-700),var(--brown-500));
+      color:var(--beige); font-weight:700; display:flex; align-items:center; justify-content:center; font-size:1.05rem;
+    }
+
+    h4.name{ margin:6px 0 6px; font-size:1.05rem; color:var(--beige); text-align:center; }
+    .meta{ font-size:.9rem; color:rgba(255,255,255,0.78); text-align:center; margin-bottom:8px; }
+    .meta .muted{ color:var(--muted); font-weight:600; margin-top:6px; display:block; }
+
+    /* stars */
+    .stars{ display:flex; justify-content:center; gap:6px; margin:8px 0; }
+    .star{ width:18px; height:18px; transition: transform .28s; }
+    .card:hover .star{ transform: translateY(-6px) scale(1.08); }
+
+    /* quote */
+    .quote{ font-size:.92rem; color:rgba(255,255,255,0.85); text-align:center; margin-top:8px; min-height:42px; }
+
+    /* locked overlay (for cards 5-8) */
+    .locked-overlay{
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(180deg, rgba(0,0,0,0.38), rgba(0,0,0,0.6));
+      color:var(--beige); font-weight:700; font-size:14px;
+      opacity:0; pointer-events:none; transition:opacity .28s;
+      flex-direction:column; gap:10px;
+    }
+    .card.locked .locked-overlay{ opacity:1; pointer-events:auto; }
+    .lock-badge{
+      background:rgba(255,255,255,0.06); padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.6);
+    }
+    .lock-cta{ background:var(--muted); color:#070707; padding:8px 14px; border-radius:14px; cursor:pointer; font-weight:700; }
+
+    /* see more button under each row */
+    .row-controls{ display:flex; justify-content:flex-end; gap:12px; margin:8px 6px 28px 6px; align-items:center; }
+    .see-more{
+      background:transparent; color:var(--muted); border:2px solid rgba(255,255,255,0.04);
+      padding:8px 14px; border-radius:14px; cursor:pointer; font-weight:700; transition: all .25s;
+    }
+    .see-more:hover{ transform:translateY(-4px); box-shadow: 0 12px 30px rgba(107,66,38,0.12); color:var(--beige); border-color: rgba(210,180,140,0.12); }
+
+    /* statement & signup area */
+    .cta-row{ margin-top:34px; display:flex; align-items:center; justify-content:center; gap:22px; flex-direction:column; text-align:center; }
+    .cta-text{ color:rgba(255,255,255,0.86); font-size:1.02rem; max-width:820px; line-height:1.45; }
+    .signup-btn{
+      margin-top:6px; background:var(--muted); color:#070707; padding:14px 36px; border-radius:40px; border:none; cursor:pointer;
+      font-weight:800; font-size:1.05rem; box-shadow: 0 18px 36px rgba(107,66,38,0.18); transition: transform .22s, background .22s;
+    }
+    .signup-btn:hover{ transform:translateY(-6px); background:var(--beige); }
+
+    /* modal */
+    .modal-backdrop{
+      position:fixed; inset:0; background:rgba(2,2,2,0.6); display:none; align-items:center; justify-content:center; z-index:9999;
+      animation: fadeIn .18s ease;
+    }
+    .modal-backdrop.show{ display:flex; }
+    @keyframes fadeIn{ from{opacity:0} to{opacity:1} }
+    .modal{
+      width:clamp(300px, 48vw, 520px); background: linear-gradient(180deg, #0f0f10, #121212); border-radius:16px; padding:22px;
+      border:1px solid rgba(255,255,255,0.04); box-shadow: 0 20px 60px rgba(0,0,0,0.8); text-align:center;
+      transform: translateY(20px) scale(.98); animation: popIn .26s cubic-bezier(.2,.9,.2,1) forwards;
+    }
+    @keyframes popIn{ to{ transform: translateY(0) scale(1) } }
+
+    .modal h3{ margin:0 0 12px; color:var(--beige); }
+    .modal p{ color:rgba(255,255,255,0.8); margin:0 0 16px; }
+    .modal .actions{ display:flex; gap:12px; justify-content:center; margin-top:8px; }
+    .btn-ghost{ background:transparent; color:var(--beige); border:1px solid rgba(255,255,255,0.06); padding:10px 12px; border-radius:10px; cursor:pointer; }
+    .btn-primary{ background:var(--muted); color:#070707; padding:10px 14px; border-radius:10px; border:none; cursor:pointer; font-weight:800; }
+
+    /* responsive tweaks */
+    @media (max-width:880px){
+      .card{ min-width:260px; --w:260px; }
+      .profile{ width:3.1cm; height:3.1cm; }
+    }
+    @media (max-width:520px){
+      .heading{ font-size:28px; }
+      .profile{ width:2.7cm; height:2.7cm; }
+      .card{ min-width:230px; --w:230px; padding:14px; border-radius:14px; }
+    }
+
+  #particles-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Behind everything */
+  background: #070707; /* Black base */
+}
+.blockbusters .wrap {
+  position: relative;
+  z-index: 2; /* Keep content above particles */
+}
+
+    
+  </style>
+</head>
+<body>
+
+
+<!-- Particles.js CDN
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+  particlesJS("particles-js", {
+    "particles": {
+      "number": { "value": 120, "density": { "enable": true, "value_area": 900 } },
+      "color": { "value": ["#cfa77a", "#a76b43", "#e8d3be"] }, 
+      "shape": { "type": "circle" },
+      "opacity": { "value": 0.7, "random": true },
+      "size": { "value": 3, "random": true },
+      "line_linked": { 
+        "enable": true, 
+        "distance": 150, 
+        "color": "#9c6b30", 
+        "opacity": 0.4, 
+        "width": 1 
+      },
+      "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "out_mode": "out" }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": { "enable": true, "mode": "repulse" },
+        "onclick": { "enable": true, "mode": "push" }
+      },
+      "modes": {
+        "repulse": { "distance": 100, "duration": 0.4 },
+        "push": { "particles_nb": 4 }
+      }
+    },
+    "retina_detect": true
+  });
+</script>
 
 
 
+
+<section class="blockbusters" aria-labelledby="blk-title">
+  <div class="bg-ribbon" aria-hidden="true"></div>
+  <span class="particle p2" style="left:9%; top:12%;"></span>
+  <span class="particle p3" style="left:84%; top:22%;"></span>
+  <span class="particle p4" style="left:66%; top:78%;"></span>
+    Particles Background 
+<div id="particles-js"></div>
+
+  <div class="wrap">
+    <h1 id="blk-title" class="heading">OUR BLOCKBUSTERS</h1>
+
+    <!-- SELF ORGANIZERS row (top) 
+    <div class="section-title">Self Organizers</div>
+    <div class="organizer-row" id="self-row" aria-label="Self organizers">
+      <!-- 8 cards (first 4 active, last 4 locked) 
+      <!-- Card 1 
+      <article class="card" data-index="0" tabindex="0">
+        <div class="profile" aria-hidden="true">AN</div>
+        <h4 class="name">Ana Nair</h4>
+        <div class="meta">Event: Indie Night • 2024</div>
+        <div class="stars" aria-hidden="true">
+          <!-- inline SVG stars
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+        </div>
+        <div class="quote">"Fantastic energy, well organised — would collab again!"</div>
+      </article>
+
+      <!-- Card 2 
+      <article class="card" data-index="1" tabindex="0">
+        <div class="profile" aria-hidden="true">RK</div>
+        <h4 class="name">Riya Kapoor</h4>
+        <div class="meta">Event: Canvas Collective • 2023</div>
+        <div class="stars" aria-hidden="true">
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+        </div>
+        <div class="quote">"Smooth coordination and a very supportive platform."</div>
+      </article>
+
+      <!-- Card 3 
+      <article class="card" data-index="2" tabindex="0">
+        <div class="profile" aria-hidden="true">SS</div>
+        <h4 class="name">Sahil Sharma</h4>
+        <div class="meta">Event: DevConnect • 2024</div>
+        <div class="stars" aria-hidden="true">
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+        </div>
+        <div class="quote">"Organisers support was top-notch — production ready."</div>
+      </article>
+
+      <!-- Card 4 
+      <article class="card" data-index="3" tabindex="0">
+        <div class="profile" aria-hidden="true">ML</div>
+        <h4 class="name">Meera Lobo</h4>
+        <div class="meta">Event: Bites & Beats • 2022</div>
+        <div class="stars" aria-hidden="true">
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+        </div>
+        <div class="quote">"Good turnout and steady support from the tools provided."</div>
+      </article>
+
+      <!-- Locked 5 
+      <article class="card locked" data-index="4" tabindex="0" aria-hidden="true">
+        <div class="profile" aria-hidden="true">DV</div>
+        <h4 class="name">Dev Vora</h4>
+        <div class="meta">Event: Pixel Clash • 2021</div>
+        <div class="stars" aria-hidden="true">
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+        </div>
+        <div class="quote">"Well supported team."</div>
+        <div class="locked-overlay">
+          <div class="lock-badge">Locked • More organizers</div>
+          <div class="lock-cta" data-action="see-more">See more (Sign up)</div>
+        </div>
+      </article>
+
+      <!-- Locked 6 
+      <article class="card locked" data-index="5" tabindex="0" aria-hidden="true">
+        <div class="profile" aria-hidden="true">PS</div>
+        <h4 class="name">Priya Sen</h4>
+        <div class="meta">Event: StepUp • 2023</div>
+        <div class="stars" aria-hidden="true"></div>
+        <div class="quote">"Loved the ticketing flow."</div>
+        <div class="locked-overlay">
+          <div class="lock-badge">Locked • More organizers</div>
+          <div class="lock-cta" data-action="see-more">See more (Sign up)</div>
+        </div>
+      </article>
+
+      <!-- Locked 7 
+      <article class="card locked" data-index="6" tabindex="0" aria-hidden="true">
+        <div class="profile" aria-hidden="true">TR</div>
+        <h4 class="name">Tanay R</h4>
+        <div class="meta">Event: Verse • 2022</div>
+        <div class="stars" aria-hidden="true"></div>
+        <div class="quote">"Comfortable stage and audience."</div>
+        <div class="locked-overlay">
+          <div class="lock-badge">Locked • More organizers</div>
+          <div class="lock-cta" data-action="see-more">See more (Sign up)</div>
+        </div>
+      </article>
+
+      <!-- Locked 8 
+      <article class="card locked" data-index="7" tabindex="0" aria-hidden="true">
+        <div class="profile" aria-hidden="true">EM</div>
+        <h4 class="name">Ezra M</h4>
+        <div class="meta">Event: LaunchPad • 2020</div>
+        <div class="stars" aria-hidden="true"></div>
+        <div class="quote">"Great exposure for founders."</div>
+        <div class="locked-overlay">
+          <div class="lock-badge">Locked • More organizers</div>
+          <div class="lock-cta" data-action="see-more">See more (Sign up)</div>
+        </div>
+      </article>
+    </div>
+
+    <div class="row-controls">
+      <button class="see-more" data-for="self">See more self organizers</button>
+    </div>
+
+    <!-- COMPANY row (below) 
+    <div class="section-title">Company Organizers</div>
+    <div class="organizer-row" id="company-row" aria-label="Company organizers">
+      <!-- 8 cards (4 visible + 4 locked) 
+      <article class="card" data-index="0" tabindex="0">
+        <div class="profile" aria-hidden="true">AC</div>
+        <h4 class="name">Arcadia Co.</h4>
+        <div class="meta">Event: Summer Echo • Music</div>
+        <div class="stars" aria-hidden="true">
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+        </div>
+        <div class="quote">"Professional crew, loved the on-ground tools."</div>
+      </article>
+
+      <article class="card" data-index="1" tabindex="0">
+        <div class="profile" aria-hidden="true">BL</div>
+        <h4 class="name">BrightLine Events</h4>
+        <div class="meta">Event: BizCon • Corporate</div>
+        <div class="stars" aria-hidden="true">
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+        </div>
+        <div class="quote">"Seamless registration & analytics."</div>
+      </article>
+
+      <article class="card" data-index="2" tabindex="0">
+        <div class="profile" aria-hidden="true">MK</div>
+        <h4 class="name">Moksha Creations</h4>
+        <div class="meta">Event: Street Feast • Cultural</div>
+        <div class="stars" aria-hidden="true">
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+        </div>
+        <div class="quote">"Great vendor management features."</div>
+      </article>
+
+      <article class="card" data-index="3" tabindex="0">
+        <div class="profile" aria-hidden="true">NP</div>
+        <h4 class="name">NeoPlanners</h4>
+        <div class="meta">Event: ScaleUp • Business</div>
+        <div class="stars" aria-hidden="true">
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+          <svg class="star" viewBox="0 0 24 24"><path fill="#f5d08a" d="M12 17.3l6.18 3.7-1.64-7.2L21.8 9.5l-7.35-.6L12 2 9.5 8.9 2.18 9.5l5.28 4.3L5.82 21.0z"/></svg>
+        </div>
+        <div class="quote">"Excellent sponsor integrations."</div>
+      </article>
+
+      <!-- Locked 5
+      <article class="card locked" data-index="4" tabindex="0" aria-hidden="true">
+        <div class="profile" aria-hidden="true">XR</div>
+        <h4 class="name">XtraReach</h4>
+        <div class="meta">Event: Hybrid Summit • 2021</div>
+        <div class="quote">"Hybrid streaming was robust."</div>
+        <div class="locked-overlay">
+          <div class="lock-badge">Locked • More organizers</div>
+          <div class="lock-cta" data-action="see-more">See more (Sign up)</div>
+        </div>
+      </article>
+
+      <article class="card locked" data-index="5" tabindex="0" aria-hidden="true">
+        <div class="profile" aria-hidden="true">GD</div>
+        <h4 class="name">GoodDay Events</h4>
+        <div class="meta">Event: Market Days • 2020</div>
+        <div class="quote">"Great footfall."</div>
+        <div class="locked-overlay">
+          <div class="lock-badge">Locked • More organizers</div>
+          <div class="lock-cta" data-action="see-more">See more (Sign up)</div>
+        </div>
+      </article>
+
+      <article class="card locked" data-index="6" tabindex="0" aria-hidden="true">
+        <div class="profile" aria-hidden="true">SY</div>
+        <h4 class="name">Syncy</h4>
+        <div class="meta">Event: SkillUp • 2023</div>
+        <div class="quote">"Efficient booking flow."</div>
+        <div class="locked-overlay">
+          <div class="lock-badge">Locked • More organizers</div>
+          <div class="lock-cta" data-action="see-more">See more (Sign up)</div>
+        </div>
+      </article>
+
+      <article class="card locked" data-index="7" tabindex="0" aria-hidden="true">
+        <div class="profile" aria-hidden="true">FT</div>
+        <h4 class="name">FeteTech</h4>
+        <div class="meta">Event: FutureTech • 2022</div>
+        <div class="quote">"Strong exhibitor support."</div>
+        <div class="locked-overlay">
+          <div class="lock-badge">Locked • More organizers</div>
+          <div class="lock-cta" data-action="see-more">See more (Sign up)</div>
+        </div>
+      </article>
+    </div>
+
+    <div class="row-controls">
+      <button class="see-more" data-for="company">See more company organizers</button>
+    </div>
+
+    <!-- the requested statement (correct placement) and signup button
+    <div class="cta-row" aria-live="polite">
+      <div class="cta-text">
+        To request, collaborate, or interact with any of these organizers — please sign up and we'll connect you to the right people and tools.
+      </div>
+      <button class="signup-btn" id="main-signup">Sign up to Work / Collaborate / Request</button>
+    </div>
+  </div>
+</section>
+
+<!-- modal 
+<div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" role="document" aria-labelledby="modal-title">
+    <h3 id="modal-title">See more organizers</h3>
+    <p>You're viewing a curated preview. Sign up to see the full list and contact or request any organizer directly.</p>
+    <div class="actions">
+      <button class="btn-ghost" id="modal-close">Close</button>
+      <button class="btn-primary" id="modal-signup">Sign up</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Change this to your actual signup URL/path
+  const SIGNUP_LINK = '/signup';
+
+  // IntersectionObserver to animate cards into view
+  const cards = document.querySelectorAll('.card');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting) {
+        e.target.classList.add('in-view');
+        // stagger: small delay by index for nicer feel
+        const idx = Number(e.target.dataset.index || 0);
+        e.target.style.transitionDelay = (idx * 60) + 'ms';
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.14 });
+
+  cards.forEach(c => io.observe(c));
+
+  // Modal control
+  const modal = document.getElementById('modal');
+  const modalClose = document.getElementById('modal-close');
+  const modalSignup = document.getElementById('modal-signup');
+
+  function openModal(){
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+
+  // "See more" buttons & locked card CTAs open the modal
+  document.querySelectorAll('.see-more').forEach(btn=>{
+    btn.addEventListener('click', openModal);
+  });
+  document.querySelectorAll('[data-action="see-more"]').forEach(el=>{
+    el.addEventListener('click', openModal);
+  });
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+
+  // modal signup button and main signup button
+  modalSignup.addEventListener('click', ()=>{ window.location.href = SIGNUP_LINK; });
+  document.getElementById('main-signup').addEventListener('click', ()=>{ window.location.href = SIGNUP_LINK; });
+
+  // keyboard accessibility: Esc closes modal
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+  });
+
+  // Optional: clicking a locked card overlay also opens modal (already wired by data-action)
+  // All good.
+
+    particlesJS("particles-js", {
+    "particles": {
+      "number": { "value": 120, "density": { "enable": true, "value_area": 900 } },
+      "color": { "value": ["#cfa77a", "#a76b43", "#e8d3be"] }, 
+      "shape": { "type": "circle" },
+      "opacity": { "value": 0.7, "random": true },
+      "size": { "value": 3, "random": true },
+      "line_linked": { 
+        "enable": true, 
+        "distance": 150, 
+        "color": "#9c6b30", 
+        "opacity": 0.4, 
+        "width": 1 
+      },
+      "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "out_mode": "out" }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": { "enable": true, "mode": "repulse" },
+        "onclick": { "enable": true, "mode": "push" }
+      },
+      "modes": {
+        "repulse": { "distance": 100, "duration": 0.4 },
+        "push": { "particles_nb": 4 }
+      }
+    },
+    "retina_detect": true
+  });
+</script>
+
+</body>
+</html>-->
+  
+
+<!--event gallery
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Insights</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #1d1101;
+      color: #f5f5dc;
+      overflow-x: hidden;
+      text-align: center;
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    /* Floating triangle background */
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+    .triangle {
+      position: absolute;
+      width: 0;
+      height: 0;
+      opacity: 0.6;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 25px solid;
+      animation: float 15s infinite linear;
+    }
+    @keyframes float {
+      from { transform: translateY(100vh) rotate(0deg); }
+      to { transform: translateY(-20vh) rotate(360deg); }
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      background: linear-gradient(90deg, #b8860b, #d2b48c, #deb887);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 40px 0;
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    .section {
+      margin: 60px auto;
+      max-width: 1400px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 30px 30px; /* extra vertical gap so info never collides */
+      justify-items: center;
+    }
+
+    .card {
+      position: relative;
+      width: 200px;
+      height: 300px;
+      background: #2a2a2a;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+    }
+    .card video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Info box hologram */
+    .info-box {
+      position: absolute;
+      bottom: 10px; /* overlaps card */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      padding: 6px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #e6d4b0;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(4px);
+      font-family: 'Times New Roman', Times, serif;
+      /* subtle diagonal hologram shine */
+      background-image: linear-gradient(135deg,
+        rgba(174, 145, 15, 0.05) 0%,
+        rgba(255,255,255,0.25) 40%,
+        rgba(255,255,255,0.05) 80%);
+      background-size: 200% 200%;
+      animation: shine 5s infinite linear;
+     background-color: #1d1101 ;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .card:hover .info-box {
+      opacity: 1;
+    }
+    @keyframes shine {
+      0% { background-position: -150% -150%; }
+      100% { background-position: 150% 150%; }
+    }
+
+    /* Modal popup */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .modal-content {
+      background-color: rgba(132, 99, 76, 0.93) ;
+      border: 1px solid rgba(241, 236, 236, 0.2);
+      width: 18cm;
+      height: 3cm;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 1rem;
+      color: #f5f5dc;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+      font-family: harrington;
+    }
+
+    /* Signup */
+    .signup {
+      text-align: center;
+      margin: 60px 0;
+    }
+    .signup button {
+      margin-top: 15px;
+      padding: 12px 28px;
+      font-size: 1rem;
+      background: linear-gradient(90deg, #b8860b, #d2b48c, #deb887);
+      color: #1a1a1a;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .signup button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(218,165,32,0.6);
+    }
+  </style>
+</head>
+<body>
+  <!-- Triangles background -
+  <div class="background"></div>
+
+  <h1>THE EVENT GALLERY</h1>
+
+  <!-- Self Organizers 
+  <div class="section">
+    <h2>EVENTS BY SELF ORGANIZERS</h2>
+    <div class="cards">
+      <!-- 6 top + 6 bottom = 12 
+      <div class="card">
+        <video autoplay muted loop src="evnt.mp4"></video>
+        <div class="info-box">Self Organizer (Client)<br>John Doe<br>Wedding Fest</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="evnt2.mp4"></video>
+        <div class="info-box">Self Organizer<br>Jane Smith<br>Birthday Bash</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="evnt3.mp4"></video>
+        <div class="info-box">Self Organizer (Client)<br>Michael Lee<br>Corporate Dinner</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="evnt4.mp4"></video>
+        <div class="info-box">Self Organizer<br>Sara Khan<br>Cultural Fest</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="media/hybrid-event.webm"></video>
+        <div class="info-box">Self Organizer (Client)<br>Ravi Patel<br>Charity Event</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="media/inperson-event.webm"></video>
+        <div class="info-box">Self Organizer<br>Ana Gomez<br>Art Exhibition</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="media/virtual-event.webm"></video>
+        <div class="info-box">Self Organizer (Client)<br>Liam Brown<br>Music Concert</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="evnt.mp4"></video>
+        <div class="info-box">Self Organizer<br>Emily Davis<br>Engagement</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="evnt2.mp4"></video>
+        <div class="info-box">Self Organizer (Client)<br>Raj Singh<br>Startup Meetup</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="evnt3.mp4"></video>
+        <div class="info-box">Self Organizer<br>Nina Chen<br>Fashion Show</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="evnt4.mp4"></video>
+        <div class="info-box">Self Organizer (Client)<br>Oliver White<br>Product Launch</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="edited video1.mp4"></video>
+        <div class="info-box">Self Organizer<br>Sofia Ali<br>Book Fair</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Company Managers 
+  <div class="section">
+    <h2>EVENTS BY COMPANY MANAGERS</h2>
+    <div class="cards">
+      <div class="card">
+        <video autoplay muted loop src="sample13.mp4"></video>
+        <div class="info-box">Company Manager (Client)<br>Event Corp<br>Annual Summit</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="sample14.mp4"></video>
+        <div class="info-box">Company Manager<br>Elite Events<br>Product Launch</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="sample15.mp4"></video>
+        <div class="info-box">Company Manager (Client)<br>Global Org<br>Expo</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="sample16.mp4"></video>
+        <div class="info-box">Company Manager<br>NextGen Events<br>Award Ceremony</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="sample17.mp4"></video>
+        <div class="info-box">Company Manager (Client)<br>Bright Minds<br>Tech Fair</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="sample18.mp4"></video>
+        <div class="info-box">Company Manager<br>Prime Planners<br>Charity Gala</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="sample19.mp4"></video>
+        <div class="info-box">Company Manager (Client)<br>Event Masters<br>Music Fest</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="sample20.mp4"></video>
+        <div class="info-box">Company Manager<br>Star Events<br>Sports League</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="sample21.mp4"></video>
+        <div class="info-box">Company Manager (Client)<br>Dream Planners<br>Trade Show</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="sample22.mp4"></video>
+        <div class="info-box">Company Manager<br>Luxury Events<br>Conference</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="sample23.mp4"></video>
+        <div class="info-box">Company Manager (Client)<br>Vision Org<br>Networking Gala</div>
+      </div>
+      <div class="card">
+        <video autoplay muted loop src="sample24.mp4"></video>
+        <div class="info-box">Company Manager<br>Platinum Events<br>Wedding Expo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Signup section 
+  <div class="signup">
+    <p>To see more of our insights sign up</p>
+    <button>Sign Up</button>
+  </div>
+
+  <!-- Modal 
+  <div class="modal" id="modal">
+    <div class="modal-content" id="modal-content">Event Info</div>
+  </div>
+
+ <!-- <script>
+    // floating triangles
+    const bg = document.querySelector('.background');
+    const colors = ['#a0522d', '#deb887', '#cd853f', '#d2b48c', '#f5f5dc', '#b8860b'];
+    for (let i=0;i<40;i++){
+      const tri = document.createElement('div');
+      tri.className='triangle';
+      tri.style.left=Math.random()*100+'vw';
+      tri.style.borderBottomColor=colors[Math.floor(Math.random()*colors.length)];
+      tri.style.animationDuration=(10+Math.random()*10)+'s';
+      tri.style.opacity=Math.random();
+      tri.style.transform=`scale(${0.5+Math.random()})`;
+      bg.appendChild(tri);
+    }
+
+    // modal logic
+    const modal=document.getElementById('modal');
+    const modalContent=document.getElementById('modal-content');
+    document.querySelectorAll('.card').forEach(card=>{
+      card.addEventListener('click',()=>{
+        const text=card.querySelector('.info-box').innerText;
+        modalContent.innerText=text;
+        modal.style.display='flex';
+      });
+    });
+    modal.addEventListener('click',()=>modal.style.display='none');
+  </script>
+</body>
+</html> -->
