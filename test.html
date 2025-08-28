@@ -1481,3 +1481,279 @@ containers.forEach(container => observer.observe(container));
   </script>
 </body>
 </html> -->
+
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>EventSphere — Roles Slider</title>
+
+<style>
+  :root{
+    --bg: #e1c1af;       /* page background */
+    --panel: #c6afa8;    /* card background */
+    --muted: #b49c8c;    /* lighter accent */
+    --accent: #c1ac9d;   /* accent color */
+    --dark: #502511;     /* dark coffee */
+    --text: #161317;     /* heading / body text */
+    --card-radius: 16px;
+  }
+
+  /* Page base */
+  html,body{height:100%;margin:0;font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: linear-gradient(90deg,var(--bg) 0%, #f2edea 100%); color:var(--text); -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1200px;margin:36px auto;padding:0 20px;}
+
+  /* Heading */
+  .roles-title{
+    font-size:36px;
+    letter-spacing:0.4px;
+    margin:8px 0 26px;
+    color:var(--dark);
+    font-weight:700;
+    text-align:center;
+  }
+
+  /* slider container */
+  .roles-slider{
+    position:relative;
+    height:66vh;
+    min-height:420px;
+  }
+
+  /* nav arrows */
+  .nav-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:52px;height:52px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(0,0,0,0.06);
+    border:1px solid rgba(0,0,0,0.06);
+    color:var(--dark);font-size:22px;cursor:pointer;
+    z-index:30;
+    box-shadow:0 6px 18px rgba(20,20,20,0.08);
+  }
+  .nav-btn:hover{transform:translateY(-50%) scale(1.04);}
+  .nav-prev{left:6px;}
+  .nav-next{right:6px;}
+
+  /* each slide */
+  .slide{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none; transition:opacity .45s ease;
+  }
+  .slide.active{ opacity:1; pointer-events:auto; z-index:10; }
+
+  /* panel (the card) */
+  .panel{
+    width:92%; height:82%; background:var(--panel); border-radius:var(--card-radius);
+    display:flex; box-shadow:0 20px 40px rgba(34,30,26,0.12); overflow:hidden;
+  }
+
+  /* halves */
+  .half{
+    width:50%; display:flex; align-items:center; justify-content:center; position:relative;
+  }
+
+  /* image half */
+  .half.image{
+    background-size:cover; background-position:center center; min-height:100%;
+  }
+  /* add a faint overlay tint to match the palette */
+  .half.image::after{
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(200,180,165,0.06), rgba(230,220,215,0.04));
+    pointer-events:none;
+  }
+
+  /* text half */
+  .half.text{
+    padding:46px 56px; flex-direction:column; align-items:flex-start; justify-content:center;
+  }
+  .slide h3{
+    margin:0 0 14px; font-size:34px; color:var(--dark); font-weight:700; letter-spacing:0.2px;
+  }
+  .slide p{
+    margin:0; color:var(--text); font-size:16px; line-height:1.6; opacity:0.95;
+  }
+  .small-meta{ margin-top:16px; font-size:13px; color:rgba(70,62,58,0.7); }
+
+  /* directional animation base (initial states) */
+  .slide .image, .slide .text { transition:transform .8s cubic-bezier(.22,.9,.34,1), opacity .6s ease; will-change: transform, opacity; opacity:0; }
+
+  /* top-bottom -> image comes from top, text from bottom */
+  .slide[data-anim="top-bottom"] .image { transform: translateY(-60px); }
+  .slide[data-anim="top-bottom"] .text  { transform: translateY(60px); }
+
+  /* left-top -> image from left, text from top */
+  .slide[data-anim="left-top"] .image { transform: translateX(-60px); }
+  .slide[data-anim="left-top"] .text  { transform: translateY(-60px); }
+
+  /* bottom-right -> image from bottom, text from right */
+  .slide[data-anim="bottom-right"] .image { transform: translateY(60px); }
+  .slide[data-anim="bottom-right"] .text  { transform: translateX(60px); }
+
+  /* 'in' state when slide becomes active */
+  .slide.active.in .image,
+  .slide.active.in .text { transform: translateX(0) translateY(0); opacity:1; }
+
+  /* small responsiveness */
+  @media (max-width:980px){
+    .panel{flex-direction:column; height:90%;}
+    .half{width:100%; min-height:50%;}
+    .half.image{order:1; height:52%;}
+    .half.text{order:2; padding:26px;}
+    .roles-title{text-align:center;}
+    .nav-btn{display:none;}
+  }
+
+  /* dots */
+ .dots {
+  position: absolute;
+  bottom: 20px;         /* move to bottom */
+  left: 50%;            /* center horizontally */
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: row;  /* dots side by side */
+  gap: 12px;
+  z-index: 40;
+}
+
+  .dot{width:14px;height:14px;border-radius:50%; background:rgba(70,62,58,0.12); border:2px solid rgba(70,62,58,0.08); cursor:pointer; box-shadow:0 3px 8px rgba(45,40,35,0.06);}
+  .dot.active{ background:var(--dark); border-color:transparent; transform:scale(1.05); }
+
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+    <div class="roles-title">Roles</div>
+
+    <div class="roles-slider" id="rolesSlider">
+
+      <button class="nav-btn nav-prev" id="prevBtn" aria-label="Previous slide">&#10094;</button>
+      <button class="nav-btn nav-next" id="nextBtn" aria-label="Next slide">&#10095;</button>
+
+      <!-- Slide 1: Visitors (image from top, text from bottom) -->
+      <div class="slide active" data-anim="top-bottom" data-index="0">
+        <div class="panel">
+          <div class="half image" style="background-image:url(media/secure-lock.jpg);"></div>
+          <div class="half text">
+            <h3>Visitors</h3>
+            <p>
+              Visitors discover and attend events seamlessly. Typical flow: <strong>discover → select → secure checkout → receive e-ticket → quick check-in</strong>.
+              EventSphere provides encrypted payments, secure e-ticket verification (QR), and privacy-first attendee data handling so visitors feel safe and supported.
+            </p>
+            <div class="small-meta">Advantages: easy discovery, secure payments, fast entry, personal schedule sync.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: Self Organizer (image from left, text from top) -->
+      <div class="slide" data-anim="left-top" data-index="1">
+        <div class="panel">
+          <div class="half image" style="background-image:url(media/hologram.jpg);"></div>
+          <div class="half text">
+            <h3>Self Organizer</h3>
+            <p>
+              Individual organizers can create events fast: <strong>create → set date & venue → publish → manage RSVPs & payments</strong>.
+              EventSphere includes real-time scheduling, budgeting tools, and secure payout options (identity verification & fraud checks) so small organizers can scale confidently.
+            </p>
+            <div class="small-meta">Advantages: control over listings, automated accounting, secure payouts, vendor coordination tools.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Company Organizer (image from bottom, text from right) -->
+      <div class="slide" data-anim="bottom-right" data-index="2">
+        <div class="panel">
+          <div class="half image" style="background-image:url('media/schedule.png');"></div>
+          <div class="half text">
+            <h3>Company Organizer</h3>
+            <p>
+              Large organizations manage multi-team events: <strong>RFP & planning → vendor contracts → on-site execution → analytics</strong>.
+              EventSphere offers role-based permissions, SSO options, audit logs, and enterprise SLAs for reliability and compliance — plus secure document storage for contracts and invoicing.
+            </p>
+            <div class="small-meta">Advantages: enterprise security, audit trails, vendor integrations, centralized billing & analytics.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- small vertical dots -->
+      <div class="dots" id="dotsWrap"></div>
+    </div> <!-- roles-slider -->
+  </div> <!-- wrap -->
+
+<script>
+  (function(){
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsWrap = document.getElementById('dotsWrap');
+    let current = 0;
+
+    // create dots
+    slides.forEach((s,i)=>{
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i===0 ? ' active' : '');
+      dot.dataset.index = i;
+      dot.addEventListener('click', ()=> goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+
+    function updateDots(idx){
+      const dots = Array.from(dotsWrap.children);
+      dots.forEach(d => d.classList.toggle('active', Number(d.dataset.index) === idx));
+    }
+
+    // show slide by index
+    function showSlide(index){
+      // bounds
+      index = (index + slides.length) % slides.length;
+      // remove active/in from all slides
+      slides.forEach(s => {
+        s.classList.remove('active','in');
+        // force reset for animation next time
+        s.style.opacity = '';
+      });
+
+      const next = slides[index];
+      next.classList.add('active');
+
+      // small timeout to allow CSS initial transforms to apply, then add 'in' so transitions run
+      // requestAnimationFrame ensures a layout/reflow in between
+      requestAnimationFrame(()=>{
+        next.classList.add('in');
+      });
+
+      current = index;
+      updateDots(current);
+    }
+
+    function goTo(i){ showSlide(i); }
+
+    nextBtn.addEventListener('click', ()=> showSlide(current+1));
+    prevBtn.addEventListener('click', ()=> showSlide(current-1));
+
+    // keyboard support
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'ArrowRight') showSlide(current+1);
+      if(e.key === 'ArrowLeft') showSlide(current-1);
+    });
+
+    // initial call (ensures the first slide animates in)
+    showSlide(current);
+
+    // OPTIONAL: if you'd like autoplay, uncomment below (5s):
+    // let autoplay = setInterval(()=> showSlide(current+1), 5000);
+    // pause on hover:
+    // document.querySelector('.roles-slider').addEventListener('mouseenter', ()=> clearInterval(autoplay));
+    // document.querySelector('.roles-slider').addEventListener('mouseleave', ()=> autoplay = setInterval(()=> showSlide(current+1), 5000));
+
+  })();
+</script>
+
+</body>
+</html>
