@@ -686,7 +686,46 @@ If something feels “off” — unusual requests, too good to be true offers �
   </div>
 </section>
 </main>
-     <footer>when we will add content to main, the footer will settle down</footer>
+     <footer> <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; text-align: left; gap: 20px;">
+      <div style="flex: 1 1 200px; margin-left: -100px;">
+        <h3>About EventSphere</h3>
+        <p>We are passionate about creating unique, unforgettable events. From weddings to corporate experiences, we deliver excellence every time.</p>
+      </div>
+
+      <div style="flex:  150px; margin-right: -200px;;">
+        <h3>Quick Links</h3><p>
+        <a href="#">Home</a><br>
+        <a href="#">Services</a><br>
+        <a href="#">Gallery</a><br>
+        <a href="#">Contact</a></p>
+      </div>
+
+      <div style="flex: 1 1 150px;">
+        <h3>Newsletter</h3>
+        <p>Subscribe to our newsletter to stay updated.</p> <br>
+        <input type="email" placeholder="Your email" style="padding: 8px; border: none; border-radius: 5px; width: 50%; margin-bottom: 10px;">
+        <button style="padding: 8px 16px; border: none; border-radius: 5px; background: white; color: var(--primary); font-weight: bold;">Subscribe</button>
+      </div>
+
+      <div style="flex: 1 1 200px; margin-right: -300px;">
+        <h3>Contact Us</h3>
+        <p>Email: support@eventsphere.com</p>
+        <p>Phone: +1 (555) 123-4567</p>
+        <p>Location: Celebration City</p>
+      </div>
+    </div>
+
+    <hr style="margin: 30px auto; width: 80%; border: 0.5px solid rgba(255,255,255,0.2);">
+
+    <div style="text-align: center;">
+      <p>Follow us: 
+        <a href="#">Facebook</a> | 
+        <a href="#">Instagram</a> | 
+        <a href="#">Twitter</a> | 
+         <a href="#">Youtube</a>
+      </p>
+      <p>© 2025 EventSphere. All Rights Reserved.</p>
+    </div></footer>
      
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </body>
@@ -748,15 +787,43 @@ body {
   
 }
  
-footer {
-    background-color: #7A5137;
-    color: #ffffff;
-    padding: 12px 20px;
-    text-align: center;
-    font-size: 1.9rem;
-    font-weight: bold;
-    margin-top: 100px;
-}
+ /* Footer */
+  body {--primary: #582a06;
+      --secondary: #1b0e01;}
+      
+    footer {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 60px;
+      background-color: #221402;
+      font-family: harrington;
+    
+    }
+
+    footer a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color:#cd9d82;
+    }
+
+    footer p {
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header h1 { font-size: 2.2rem; }
+      .about-content { flex-direction: column; }
+    }
+    
 /* here is hover hologram*/
 .holographic-container {
   display: flex;
