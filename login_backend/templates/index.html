@@ -3,59 +3,138 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <title>Event Management Login</title>
-  
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
+  <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     body {
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
       height: 100vh; display: flex; justify-content: center; align-items: center;
+      background-size: 300% 300%; animation: gradientBG 10s ease infinite;
     }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
     .container {
-      background: #fff; padding: 40px; border-radius: 20px;
-      width: 380px; text-align: center;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      border-radius: 25px;
+      width: 420px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      color: #fff;
+      animation: fadeIn 1s ease-in-out;
     }
-    h2 { margin-bottom: 20px; color: #333; }
-    input, select, button {
-      width: 100%; padding: 12px; margin: 8px 0;
-      border: 1px solid #ccc; border-radius: 10px; outline: none; font-size: 15px;
+    h2 {
+      margin-bottom: 25px;
+      font-size: 26px;
+      font-weight: 600;
+      color: #fff;
     }
+    input {
+      width: 100%; padding: 14px; margin: 10px 0;
+      border: none; border-radius: 12px;
+      outline: none; font-size: 15px;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+    input::placeholder { color: #ddd; }
     button {
-      background: #2575fc; color: white; font-weight: bold;
-      cursor: pointer; transition: 0.3s; border: none;
+      width: 100%; padding: 14px; margin-top: 15px;
+      border: none; border-radius: 12px;
+      background: linear-gradient(45deg, #ff512f, #dd2476);
+      color: white; font-weight: bold; font-size: 16px;
+      cursor: pointer; transition: 0.4s; letter-spacing: 1px;
     }
-    button:hover { background: #6a11cb; }
-    .toggle-link { margin-top: 12px; display: block; color: #2575fc; cursor: pointer; }
+    button:hover {
+      background: linear-gradient(45deg, #dd2476, #ff512f);
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .toggle-link {
+      margin-top: 15px; display: block;
+      color: #ffdd00; cursor: pointer;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    .toggle-link:hover { color: #fff; text-decoration: underline; }
+
     .panel { display: none; }
-    .active { display: block; animation: fadeIn 0.5s ease-in-out; }
-    @keyframes fadeIn { from {opacity: 0; transform: translateY(-20px);} to {opacity: 1; transform: translateY(0);} }
-    #rolePanel { margin-top: 15px; font-weight: bold; color: #6a11cb; }
+    .active { display: block; animation: fadeIn 0.6s ease-in-out; }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-15px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* Role Selection Cards */
+    .role-container {
+      display: flex; gap: 15px; margin-top: 20px;
+      justify-content: center;
+    }
+    .role-card {
+      flex: 1; padding: 20px; border-radius: 15px;
+      background: rgba(255,255,255,0.2);
+      color: #fff; cursor: pointer;
+      transition: 0.4s; text-align: center;
+      border: 2px solid transparent;
+    }
+    .role-card:hover {
+      transform: translateY(-8px) scale(1.05);
+      border: 2px solid #ffdd00;
+      background: rgba(255,255,255,0.3);
+    }
+    .role-card.selected {
+      border: 2px solid #ffdd00;
+      background: rgba(255,255,255,0.4);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .role-card h3 { font-size: 18px; margin-bottom: 8px; }
+    .role-card p { font-size: 13px; opacity: 0.8; }
+
+    #rolePanel {
+      margin-top: 20px; font-weight: bold;
+      font-size: 16px; color: #ffdd00;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <!-- SIGNUP -->
     <div id="signupPanel" class="panel active">
-      <h2>Sign Up</h2>
+      <h2>Create Account</h2>
       <input type="text" id="signupName" placeholder="Full Name" required>
       <input type="email" id="signupEmail" placeholder="Email" required>
       <input type="password" id="signupPassword" placeholder="Password" required>
-      <select id="signupRole">
-        <option value="customer">Customer</option>
-        <option value="organizer">Organizer</option>
-        <option value="admin">Admin</option>
-      </select>
+
+      <h3 style="margin-top:15px;">Choose Role</h3>
+      <div class="role-container">
+        <div class="role-card" onclick="selectRole('customer', this)">
+          <h3>🎟 Customer</h3>
+          <p>Book & explore events</p>
+        </div>
+        <div class="role-card" onclick="selectRole('organizer', this)">
+          <h3>📅 Organizer</h3>
+          <p>Create & manage events</p>
+        </div>
+        <div class="role-card" onclick="selectRole('admin', this)">
+          <h3>⚡ Admin</h3>
+          <p>Manage users & system</p>
+        </div>
+      </div>
+
       <button onclick="signUp()">Register</button>
       <span class="toggle-link" onclick="showPanel('loginPanel')">Already have an account? Login</span>
     </div>
 
     <!-- LOGIN -->
     <div id="loginPanel" class="panel">
-      <h2>Sign In</h2>
+      <h2>Welcome Back</h2>
       <input type="email" id="loginEmail" placeholder="Email" required>
       <input type="password" id="loginPassword" placeholder="Password" required>
       <button onclick="signIn()">Login</button>
@@ -69,24 +148,35 @@
       <button onclick="logout()">Logout</button>
     </div>
   </div>
-      
 
   <script>
+    let selectedRole = "";
+
     function showPanel(panelId) {
       document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
       document.getElementById(panelId).classList.add('active');
+    }
+
+    function selectRole(role, element) {
+      selectedRole = role;
+      document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+      element.classList.add('selected');
     }
 
     function signUp() {
       const name = document.getElementById("signupName").value;
       const email = document.getElementById("signupEmail").value;
       const password = document.getElementById("signupPassword").value;
-      const role = document.getElementById("signupRole").value;
+
+      if (!selectedRole) {
+        alert("Please select a role!");
+        return;
+      }
 
       fetch("/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, role })
+        body: JSON.stringify({ name, email, password, role: selectedRole })
       })
       .then(res => res.json())
       .then(data => {
@@ -107,9 +197,9 @@
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          document.getElementById("welcomeMsg").innerText = `Welcome back, ${data.name}!`;
+          document.getElementById("welcomeMsg").innerText = 👑 Welcome back, ${data.name}!;
           if (data.role === "admin") {
-            document.getElementById("rolePanel").innerText = "⚡ Admin Panel: Manage users, events, and system settings.";
+            document.getElementById("rolePanel").innerText = "⚡ Admin Panel: Manage users, events, and settings.";
           } else if (data.role === "organizer") {
             document.getElementById("rolePanel").innerText = "📅 Organizer Panel: Create and manage events.";
           } else {
