@@ -197,7 +197,7 @@
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          document.getElementById("welcomeMsg").innerText = 👑 Welcome back, ${data.name}!;
+          document.getElementById("welcomeMsg").innerText = "👑 Welcome back, ${data.name}!";
           if (data.role === "admin") {
             document.getElementById("rolePanel").innerText = "⚡ Admin Panel: Manage users, events, and settings.";
           } else if (data.role === "organizer") {
