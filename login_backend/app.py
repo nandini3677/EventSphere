@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 import mysql.connector
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__, template_folder="templates")
-
 
 # === Database connection ===
 def get_db_connection():
@@ -22,6 +22,7 @@ def home():
 @app.route("/signup", methods=["POST"])
 def signup():
     data = request.get_json()
+    print("📩 Received signup data:", data) 
     name = data["name"]
     email = data["email"]
     password = data["password"]
@@ -31,7 +32,7 @@ def signup():
     cursor = conn.cursor(dictionary=True)
 
     # Check if email already exists
-    cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+    cursor.execute("SELECT * FROM user WHERE email = %s", (email,))
     existing_user = cursor.fetchone()
 
     if existing_user:
@@ -39,10 +40,13 @@ def signup():
         conn.close()
         return jsonify({"success": False, "message": "❌ Email already registered!"})
 
+    # Hash password before saving
+    hashed_password = generate_password_hash(password)
+
     # Insert new user
     cursor.execute(
-        "INSERT INTO users (name, email, password, role) VALUES (%s, %s, %s, %s)",
-        (name, email, password, role)
+        "INSERT INTO user (name, email, password, role) VALUES (%s, %s, %s, %s)",
+        (name, email, hashed_password, role)
     )
     conn.commit()
 
@@ -61,13 +65,13 @@ def signin():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT * FROM users WHERE email = %s AND password = %s", (email, password))
+    cursor.execute("SELECT * FROM user WHERE email = %s", (email,))
     user = cursor.fetchone()
 
     cursor.close()
     conn.close()
 
-    if user:
+    if user and check_password_hash(user["password"], password):
         return jsonify({
             "success": True,
             "name": user["name"],
