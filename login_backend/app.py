@@ -78,7 +78,7 @@ def signin():
             "role": user["role"]
         })
 
-    return jsonify({"success": False, "message": "❌ Invalid email or password!"})
+    return jsonify({"success": False, "message": "❌ Invalid email orgit  password!"})
 
 if __name__ == "__main__":
     app.run(debug=True)
