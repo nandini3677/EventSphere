@@ -1,274 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EventSphere - Sign In / Sign Up</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: #f5f5f5;
-      text-align: center;
-      padding: 30px;
-    }
-    h1, h2 {
-      color: #facc15;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-    }
-    .toggle-btns button {
-      padding: 10px 20px;
-      margin: 0 10px;
-      border: 2px solid #facc15;
-      border-radius: 8px;
-      background: #1e293b;
-      color: #facc15;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    .toggle-btns button.active {
-      background: #facc15;
-      color: #1e293b;
-    }
-    .form-box {
-      background: #1e293b;
-      padding: 30px;
-      border-radius: 16px;
-      width: 400px;
-      margin: 20px auto;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-      border: 2px solid #facc15;
-      text-align: left;
-    }
-    form input, form select {
-      display: block;
-      width: 95%;
-      margin: 10px auto;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      font-size: 15px;
-    }
-    .checkbox { display: flex; align-items: center; gap: 8px; margin: 10px; }
-    form button { padding: 10px; border: none; border-radius: 8px; background: #facc15; color: #1e293b; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
-    form button:hover { background: #eab308; }
-    .hidden { display: none; }
-    .container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 40px; }
-    .card { background: #1e293b; width: 160px; height: 160px; display: flex; justify-content: center; align-items: center; border-radius: 14px; cursor: pointer; font-size: 20px; font-weight: 600; color: #facc15; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transform: rotate(-10deg); transition: 0.3s; border: 2px solid #facc15; }
-    .card:hover { background: #facc15; color: #1e293b; transform: scale(1.05) rotate(-10deg); box-shadow: 0 12px 24px rgba(0,0,0,0.6); }
-    .role-title { margin-top: 10px; font-size: 16px; font-weight: 500; color: #f5f5f5; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EventSphere - Sign In / Sign Up</title>
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #E6D3B8, #BC9F7D, #A27246);
+  color: #623817;
+  text-align: center;
+  padding: 30px;
+}
+h1,h2 { color:#623817; text-shadow:1px 1px 4px rgba(0,0,0,0.15);}
+.toggle-btns button {
+  padding:10px 20px; margin:0 10px;
+  border:2px solid #623817;
+  border-radius:25px;
+  background:#BC9F7D; color:#623817;
+  cursor:pointer; font-weight:bold; transition:0.3s;
+}
+.toggle-btns button.active{ background:#A27246; color:#fff;}
+.form-box {
+  background:#E6D3B8dd; padding:30px;
+  border-radius:20px; width:400px;
+  margin:20px auto; box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  border:2px solid #A27246; text-align:left;
+}
+form input,form select {
+  display:block; width:95%; margin:10px auto; padding:10px;
+  border-radius:10px; border:1px solid #A27246; background:#F5E7D3;
+  font-size:15px; color:#623817;
+}
+.checkbox { display:flex; align-items:center; gap:8px; margin:10px; font-size:14px; }
+form button { padding:12px; border:none; border-radius:25px; background:#A27246; color:#fff; cursor:pointer; font-weight:bold; width:100%; transition:0.3s; }
+form button:hover { background:#BC9F7D; }
+.hidden { display:none; }
+.container { display:flex; justify-content:center; gap:40px; flex-wrap:wrap; margin-bottom:40px; }
+.card { background:#BC9F7D; width:160px; height:160px; display:flex; justify-content:center; align-items:center; border-radius:50%; cursor:pointer; font-size:20px; font-weight:600; color:#623817; box-shadow:0 6px 14px rgba(0,0,0,0.15); transition:0.3s; border:3px solid #A27246; }
+.card:hover { background:#A27246; color:#fff; transform:scale(1.1); box-shadow:0 12px 24px rgba(0,0,0,0.2); }
+.role-title { margin-top:10px; font-size:16px; font-weight:500; color:#623817; }
+</style>
 </head>
 <body>
 
-  <!-- Toggle Sign In / Sign Up -->
-  <div class="toggle-btns">
-    <button id="showSignIn" class="active">Sign In</button>
-    <button id="showSignUp">Sign Up</button>
+<div class="toggle-btns">
+  <button id="showSignIn" class="active">Sign In</button>
+  <button id="showSignUp">Sign Up</button>
+</div>
+
+<div id="signInForm" class="form-box">
+  <h2>Sign In</h2>
+  <form id="loginForm">
+    <select name="role" required>
+      <option value="">Select Role</option>
+      <option value="visitor">Visitor</option>
+      <option value="self">Self Organizer</option>
+      <option value="organizer">Company Organizer</option>
+    </select>
+    <input type="email" name="email" placeholder="Email Address" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Sign In</button>
+  </form>
+</div>
+
+<div id="signUpSection" class="hidden">
+  <h1>Signup as</h1>
+  <div class="container">
+    <div class="role"><div class="card" onclick="showForm('visitor')">Form</div><div class="role-title">Visitor</div></div>
+    <div class="role"><div class="card" onclick="showForm('self')">Form</div><div class="role-title">Self Organizer</div></div>
+    <div class="role"><div class="card" onclick="showForm('organizer')">Form</div><div class="role-title">Company Organizer</div></div>
   </div>
 
-  <!-- Sign In Form -->
-  <div id="signInForm" class="form-box">
-    <h2>Sign In</h2>
-    <form id="loginForm">
-      <select name="role" required>
-        <option value="">Select Role</option>
-        <option value="visitor">Visitor</option>
-        <option value="self">Self Organizer</option>
-        <option value="organizer">Company Organizer</option>
-      </select>
+  <!-- Visitor Form -->
+  <div id="visitorForm" class="form-box hidden">
+    <h2>Register as Visitor</h2>
+    <form id="visitorSignup">
+      <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email Address" required>
+      <input type="text" name="mobile" placeholder="Mobile Number (optional)">
+      <select name="event_type">
+        <option value="">Select Event Type (optional)</option>
+        <option>Birthday</option>
+        <option>Wedding</option>
+        <option>College</option>
+        <option>Party</option>
+        <option>Other</option>
+      </select>
+      <input type="text" name="event_space" placeholder="Event Space Name" required>
       <input type="password" name="password" placeholder="Password" required>
-      <button type="submit">Sign In</button>
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+      <div class="checkbox"><input type="checkbox" required> I agree to Terms & Conditions</div>
+      <button type="submit">Signup</button>
     </form>
   </div>
 
-  <!-- Signup Section -->
-  <div id="signUpSection" class="hidden">
-    <h1>Signup as</h1>
-    <div class="container">
-      <div class="role">
-        <div class="card" onclick="showForm('visitor')">Form</div>
-        <div class="role-title">Visitor</div>
-      </div>
-      <div class="role">
-        <div class="card" onclick="showForm('self')">Form</div>
-        <div class="role-title">Self Organizer</div>
-      </div>
-      <div class="role">
-        <div class="card" onclick="showForm('organizer')">Form</div>
-        <div class="role-title">Company Organizer</div>
-      </div>
-    </div>
-
-    <!-- Visitor Form -->
-    <div id="visitorForm" class="form-box hidden">
-      <h2>Register as Visitor</h2>
-      <form id="visitorSignup">
-        <input type="text" name="name" placeholder="Full Name" required>
-        <input type="email" name="email" placeholder="Email Address" required>
-        <input type="text" name="mobile" placeholder="Mobile Number (optional)">
-        <select name="event_type">
-          <option value="">Select Event Type (optional)</option>
-          <option>Birthday</option>
-          <option>Wedding</option>
-          <option>College</option>
-          <option>Party</option>
-          <option>Other</option>
-        </select>
-        <input type="text" name="event_space" placeholder="Event Space Name" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-        <div class="checkbox">
-          <input type="checkbox" required> I agree to Terms & Conditions
-        </div>
-        <button type="submit">Signup</button>
-      </form>
-    </div>
-
-    <!-- Self Organizer Form -->
-    <div id="selfForm" class="form-box hidden">
-      <h2>Register as Self Organizer</h2>
-      <form id="selfSignup">
-        <input type="text" name="name" placeholder="Full Name" required>
-        <input type="email" name="email" placeholder="Email Address" required>
-        <input type="text" name="mobile" placeholder="Mobile Number" required>
-        <input type="text" name="company" placeholder="Company / Organization Name" required>
-        <select name="business_type" required>
-          <option value="">Select Business Type</option>
-          <option>Event Management</option>
-          <option>Catering</option>
-          <option>Venue</option>
-          <option>Decor</option>
-          <option>Other</option>
-        </select>
-        <input type="text" name="website" placeholder="Company Website / Social Link (optional)">
-        <input type="text" name="company_id" placeholder="Company ID / GST / PAN (optional)">
-        <input type="text" name="event_space" placeholder="Event Space Name (optional)">
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-        <div class="checkbox">
-          <input type="checkbox" required> I agree to Terms & Conditions
-        </div>
-        <button type="submit">Signup</button>
-      </form>
-    </div>
-
-    <!-- Company Organizer Form -->
-    <div id="organizerForm" class="form-box hidden">
-      <h2>Register as Company Organizer</h2>
-      <form id="organizerSignup">
-        <input type="text" name="name" placeholder="Full Name" required>
-        <input type="email" name="email" placeholder="Email Address" required>
-        <input type="text" name="mobile" placeholder="Mobile Number" required>
-        <input type="text" name="company" placeholder="Company / Organization Name" required>
-        <select name="business_type" required>
-          <option value="">Select Business Type</option>
-          <option>Event Management</option>
-          <option>Catering</option>
-          <option>Venue</option>
-          <option>Decor</option>
-          <option>Other</option>
-        </select>
-        <input type="text" name="website" placeholder="Company Website / Social Link (optional)">
-        <input type="text" name="company_id" placeholder="Company ID / GST / PAN (optional)">
-        <input type="text" name="event_space" placeholder="Event Space Name (optional)">
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-        <div class="checkbox">
-          <input type="checkbox" required> I agree to Terms & Conditions
-        </div>
-        <button type="submit">Signup</button>
-      </form>
-    </div>
+  <!-- Self Organizer Form -->
+  <div id="selfForm" class="form-box hidden">
+    <h2>Register as Self Organizer</h2>
+    <form id="selfSignup">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email Address" required>
+      <input type="text" name="mobile" placeholder="Mobile Number" required>
+      <input type="text" name="company" placeholder="Company / Organization Name" required>
+      <select name="business_type" required>
+        <option value="">Select Business Type</option>
+        <option>Event Management</option>
+        <option>Catering</option>
+        <option>Venue</option>
+        <option>Decor</option>
+        <option>Other</option>
+      </select>
+      <input type="text" name="website" placeholder="Company Website / Social Link (optional)">
+      <input type="text" name="company_id" placeholder="Company ID / GST / PAN (optional)">
+      <input type="text" name="event_space" placeholder="Event Space Name (optional)">
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+      <div class="checkbox"><input type="checkbox" required> I agree to Terms & Conditions</div>
+      <button type="submit">Signup</button>
+    </form>
   </div>
 
-  <script>
-    // Toggle Sign In / Sign Up
-    const signInForm = document.getElementById("signInForm");
-    const signUpSection = document.getElementById("signUpSection");
-    const showSignInBtn = document.getElementById("showSignIn");
-    const showSignUpBtn = document.getElementById("showSignUp");
+  <!-- Company Organizer Form -->
+  <div id="organizerForm" class="form-box hidden">
+    <h2>Register as Company Organizer</h2>
+    <form id="organizerSignup">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email Address" required>
+      <input type="text" name="mobile" placeholder="Mobile Number" required>
+      <input type="text" name="company" placeholder="Company / Organization Name" required>
+      <select name="business_type" required>
+        <option value="">Select Business Type</option>
+        <option>Event Management</option>
+        <option>Catering</option>
+        <option>Venue</option>
+        <option>Decor</option>
+        <option>Other</option>
+      </select>
+      <input type="text" name="website" placeholder="Company Website / Social Link (optional)">
+      <input type="text" name="company_id" placeholder="Company ID / GST / PAN (optional)">
+      <input type="text" name="event_space" placeholder="Event Space Name (optional)">
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+      <div class="checkbox"><input type="checkbox" required> I agree to Terms & Conditions</div>
+      <button type="submit">Signup</button>
+    </form>
+  </div>
+</div>
 
-    showSignInBtn.addEventListener("click", () => {
-      signInForm.classList.remove("hidden");
-      signUpSection.classList.add("hidden");
-      showSignInBtn.classList.add("active");
-      showSignUpBtn.classList.remove("active");
-    });
+<script>
+// Toggle Sign In / Sign Up
+const signInForm = document.getElementById("signInForm");
+const signUpSection = document.getElementById("signUpSection");
+const showSignInBtn = document.getElementById("showSignIn");
+const showSignUpBtn = document.getElementById("showSignUp");
 
-    showSignUpBtn.addEventListener("click", () => {
-      signInForm.classList.add("hidden");
-      signUpSection.classList.remove("hidden");
-      showSignUpBtn.classList.add("active");
-      showSignInBtn.classList.remove("active");
-    });
+showSignInBtn.addEventListener("click", () => {
+  signInForm.classList.remove("hidden");
+  signUpSection.classList.add("hidden");
+  showSignInBtn.classList.add("active");
+  showSignUpBtn.classList.remove("active");
+});
 
-    // Signup forms toggle
-    function showForm(role) {
-      document.getElementById("visitorForm").classList.add("hidden");
-      document.getElementById("selfForm").classList.add("hidden");
-      document.getElementById("organizerForm").classList.add("hidden");
-      document.getElementById(role + "Form").classList.remove("hidden");
-    }
+showSignUpBtn.addEventListener("click", () => {
+  signInForm.classList.add("hidden");
+  signUpSection.classList.remove("hidden");
+  showSignUpBtn.classList.add("active");
+  showSignInBtn.classList.remove("active");
+});
 
-    // ------------------ AJAX ------------------
-    // Sign In
-    document.getElementById("loginForm").addEventListener("submit", async e => {
-      e.preventDefault();
-      let formData = Object.fromEntries(new FormData(e.target).entries());
-      let res = await fetch("/signin", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(formData)
-      });
-      let data = await res.json();
-      alert(data.message);
-    });
+// Signup forms toggle
+function showForm(role){
+  document.getElementById("visitorForm").classList.add("hidden");
+  document.getElementById("selfForm").classList.add("hidden");
+  document.getElementById("organizerForm").classList.add("hidden");
+  document.getElementById(role + "Form").classList.remove("hidden");
+}
 
-    // Visitor Signup
-    document.getElementById("visitorSignup").addEventListener("submit", async e => {
-      e.preventDefault();
-      let formData = Object.fromEntries(new FormData(e.target).entries());
-      formData.role = "visitor";
-      let res = await fetch("/signup", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(formData)
-      });
-      let data = await res.json();
-      alert(data.message);
-    });
+// ----------- AJAX / Fetch for Forms -----------
 
-    // Self Organizer Signup
-    document.getElementById("selfSignup").addEventListener("submit", async e => {
-      e.preventDefault();
-      let formData = Object.fromEntries(new FormData(e.target).entries());
-      formData.role = "self";
-      let res = await fetch("/signup", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(formData)
-      });
-      let data = await res.json();
-      alert(data.message);
-    });
+// Sign In
+document.getElementById("loginForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const form = e.target;
+  const res = await fetch("/signin", {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      role: form.role.value,
+      email: form.email.value,
+      password: form.password.value
+    })
+  });
+  const data = await res.json();
+  alert(data.message);
+});
 
-    // Organizer Signup
-    document.getElementById("organizerSignup").addEventListener("submit", async e => {
-      e.preventDefault();
-      let formData = Object.fromEntries(new FormData(e.target).entries());
-      formData.role = "organizer";
-      let res = await fetch("/signup", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(formData)
-      });
-      let data = await res.json();
-      alert(data.message);
-    });
-  </script>
+// Visitor Signup
+document.getElementById("visitorSignup").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const form = e.target;
+  if(form.password.value !== form.confirm_password.value){
+    alert("Passwords do not match!"); return;
+  }
+  const res = await fetch("/signup", {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      role:"visitor",
+      name: form.name.value,
+      email: form.email.value,
+      mobile: form.mobile.value,
+      event_type: form.event_type.value,
+      event_space: form.event_space.value,
+      password: form.password.value
+    })
+  });
+  const data = await res.json();
+  alert(data.message);
+});
+
+// Self Signup
+document.getElementById("selfSignup").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const form = e.target;
+  if(form.password.value !== form.confirm_password.value){
+    alert("Passwords do not match!"); return;
+  }
+  const res = await fetch("/signup", {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      role:"self",
+      name: form.name.value,
+      email: form.email.value,
+      mobile: form.mobile.value,
+      company: form.company.value,
+      business_type: form.business_type.value,
+      website: form.website.value,
+      company_id: form.company_id.value,
+      event_space: form.event_space.value,
+      password: form.password.value
+    })
+  });
+  const data = await res.json();
+  alert(data.message);
+});
+
+// Organizer Signup
+document.getElementById("organizerSignup").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const form = e.target;
+  if(form.password.value !== form.confirm_password.value){
+    alert("Passwords do not match!"); return;
+  }
+  const res = await fetch("/signup", {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      role:"organizer",
+      name: form.name.value,
+      email: form.email.value,
+      mobile: form.mobile.value,
+      company: form.company.value,
+      business_type: form.business_type.value,
+      website: form.website.value,
+      company_id: form.company_id.value,
+      event_space: form.event_space.value,
+      password: form.password.value
+    })
+  });
+  const data = await res.json();
+  alert(data.message);
+});
+</script>
+
 </body>
 </html>
+
+
+
 
