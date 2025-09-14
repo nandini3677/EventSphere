@@ -8,65 +8,108 @@
 <style>
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #E6D3B8, #BC9F7D, #A27246);
-  color: #623817;
+  /* lighter gradient */
+  background: linear-gradient(135deg, #f1e4d6, #e4c7a2, #d3a679, #c08d60);
+  color: #2f2f2f;
   text-align: center;
   padding: 30px;
 }
 h1,h2 { 
-  color:#623817; 
-  text-shadow:1px 1px 4px rgba(0,0,0,0.15);
+  color:#8a5a3b; 
+  text-shadow:1px 1px 6px rgba(0,0,0,0.15);
 }
 .toggle-btns button {
   padding:10px 20px; margin:0 10px;
-  border:2px solid #623817;
+  border:2px solid #b07b52;
   border-radius:25px;
-  background:#BC9F7D; color:#623817;
-  cursor:pointer; font-weight:bold; transition:0.3s;
+  background:#fff9f4; 
+  color:#8a5a3b;
+  cursor:pointer; 
+  font-weight:bold; 
+  transition:0.3s;
 }
-.toggle-btns button.active{ background:#A27246; color:#fff;}
+.toggle-btns button.active{ 
+  background:#b07b52; 
+  color:#fff;
+}
 .form-box {
-  background:#E6D3B8dd; 
-  padding:40px 30px 30px;
+  background:#ffffffee; 
+  padding:30px;
   border-radius:20px; 
   width:400px;
-  margin:50px auto; 
+  margin:20px auto; 
   box-shadow:0 8px 20px rgba(0,0,0,0.15);
-  border:2px solid #A27246; 
+  border:2px solid #d3a679; 
   text-align:left;
-  position: relative;
-}
-.icon-circle {
-  width:70px; height:70px; 
-  border-radius:50%;
-  background:#A27246;
-  color:#fff;
-  display:flex; justify-content:center; align-items:center;
-  font-size:28px;
-  position:absolute;
-  top:-35px;
-  left:50%;
-  transform:translateX(-50%);
-  box-shadow:0 6px 14px rgba(0,0,0,0.2);
 }
 form input,form select {
-  display:block; width:95%; margin:10px auto; padding:10px;
-  border-radius:10px; border:1px solid #A27246; background:#F5E7D3;
-  font-size:15px; color:#623817;
+  display:block; 
+  width:95%; 
+  margin:10px auto; 
+  padding:10px;
+  border-radius:10px; 
+  border:1px solid #d3a679; 
+  background:#fffdfa;
+  font-size:15px; 
+  color:#2f2f2f;
 }
-.checkbox { display:flex; align-items:center; gap:8px; margin:10px; font-size:14px; }
-form button { padding:12px; border:none; border-radius:25px; background:#A27246; color:#fff; cursor:pointer; font-weight:bold; width:100%; transition:0.3s; }
-form button:hover { background:#BC9F7D; }
+.checkbox { 
+  display:flex; 
+  align-items:center; 
+  gap:8px; 
+  margin:10px; 
+  font-size:14px; 
+}
+form button { 
+  padding:12px; 
+  border:none; 
+  border-radius:25px; 
+  background:#8a5a3b; 
+  color:#fff; 
+  cursor:pointer; 
+  font-weight:bold; 
+  width:100%; 
+  transition:0.3s; 
+}
+form button:hover { 
+  background:#b07b52; 
+}
 .hidden { display:none; }
-.container { display:flex; justify-content:center; gap:40px; flex-wrap:wrap; margin-bottom:40px; }
-.card { 
-  background:#BC9F7D; width:160px; height:160px; 
-  display:flex; justify-content:center; align-items:center; 
-  border-radius:50%; cursor:pointer; font-size:50px; color:#fff; 
-  box-shadow:0 6px 14px rgba(0,0,0,0.15); transition:0.3s; border:3px solid #A27246; 
+.container { 
+  display:flex; 
+  justify-content:center; 
+  gap:40px; 
+  flex-wrap:wrap; 
+  margin-bottom:40px; 
 }
-.card:hover { background:#A27246; color:#fff; transform:scale(1.1); box-shadow:0 12px 24px rgba(0,0,0,0.2); }
-.role-title { margin-top:10px; font-size:16px; font-weight:500; color:#623817; }
+.card { 
+  background:#fff9f4; 
+  width:160px; 
+  height:160px; 
+  display:flex; 
+  justify-content:center; 
+  align-items:center; 
+  border-radius:50%; 
+  cursor:pointer; 
+  font-size:40px;  /* bigger icons */
+  font-weight:600; 
+  color:#8a5a3b; 
+  box-shadow:0 6px 14px rgba(0,0,0,0.15); 
+  transition:0.3s; 
+  border:3px solid #d3a679; 
+}
+.card:hover { 
+  background:#8a5a3b; 
+  color:#fff; 
+  transform:scale(1.1); 
+  box-shadow:0 12px 24px rgba(0,0,0,0.3); 
+}
+.role-title { 
+  margin-top:10px; 
+  font-size:16px; 
+  font-weight:500; 
+  color:#8a5a3b; 
+}
 </style>
 </head>
 <body>
@@ -77,7 +120,6 @@ form button:hover { background:#BC9F7D; }
 </div>
 
 <div id="signInForm" class="form-box">
-  <div class="icon-circle"><i class="fas fa-right-to-bracket"></i></div>
   <h2>Sign In</h2>
   <form id="loginForm">
     <select name="role" required>
@@ -95,23 +137,33 @@ form button:hover { background:#BC9F7D; }
 <div id="signUpSection" class="hidden">
   <h1>Signup as</h1>
   <div class="container">
+    <!-- Visitor -->
     <div class="role">
-      <div class="card" onclick="showForm('visitor')"><i class="fas fa-user"></i></div>
+      <div class="card" onclick="showForm('visitor')">
+        <i class="fas fa-user"></i>
+      </div>
       <div class="role-title">Visitor</div>
     </div>
+
+    <!-- Self Organizer -->
     <div class="role">
-      <div class="card" onclick="showForm('self')"><i class="fas fa-user-tie"></i></div>
+      <div class="card" onclick="showForm('self')">
+        <i class="fas fa-briefcase"></i>
+      </div>
       <div class="role-title">Self Organizer</div>
     </div>
+
+    <!-- Company Organizer -->
     <div class="role">
-      <div class="card" onclick="showForm('organizer')"><i class="fas fa-building"></i></div>
+      <div class="card" onclick="showForm('organizer')">
+        <i class="fas fa-building"></i>
+      </div>
       <div class="role-title">Company Organizer</div>
     </div>
   </div>
 
-  <!-- Forms -->
+  <!-- Visitor Form -->
   <div id="visitorForm" class="form-box hidden">
-    <div class="icon-circle"><i class="fas fa-user"></i></div>
     <h2>Register as Visitor</h2>
     <form id="visitorSignup">
       <input type="text" name="name" placeholder="Full Name" required>
@@ -119,7 +171,11 @@ form button:hover { background:#BC9F7D; }
       <input type="text" name="mobile" placeholder="Mobile Number (optional)">
       <select name="event_type">
         <option value="">Select Event Type (optional)</option>
-        <option>Birthday</option><option>Wedding</option><option>College</option><option>Party</option><option>Other</option>
+        <option>Birthday</option>
+        <option>Wedding</option>
+        <option>College</option>
+        <option>Party</option>
+        <option>Other</option>
       </select>
       <input type="text" name="event_space" placeholder="Event Space Name" required>
       <input type="password" name="password" placeholder="Password" required>
@@ -129,8 +185,8 @@ form button:hover { background:#BC9F7D; }
     </form>
   </div>
 
+  <!-- Self Organizer Form -->
   <div id="selfForm" class="form-box hidden">
-    <div class="icon-circle"><i class="fas fa-user-tie"></i></div>
     <h2>Register as Self Organizer</h2>
     <form id="selfSignup">
       <input type="text" name="name" placeholder="Full Name" required>
@@ -139,7 +195,11 @@ form button:hover { background:#BC9F7D; }
       <input type="text" name="company" placeholder="Company / Organization Name" required>
       <select name="business_type" required>
         <option value="">Select Business Type</option>
-        <option>Event Management</option><option>Catering</option><option>Venue</option><option>Decor</option><option>Other</option>
+        <option>Event Management</option>
+        <option>Catering</option>
+        <option>Venue</option>
+        <option>Decor</option>
+        <option>Other</option>
       </select>
       <input type="text" name="website" placeholder="Company Website / Social Link (optional)">
       <input type="text" name="company_id" placeholder="Company ID / GST / PAN (optional)">
@@ -151,8 +211,8 @@ form button:hover { background:#BC9F7D; }
     </form>
   </div>
 
+  <!-- Company Organizer Form -->
   <div id="organizerForm" class="form-box hidden">
-    <div class="icon-circle"><i class="fas fa-building"></i></div>
     <h2>Register as Company Organizer</h2>
     <form id="organizerSignup">
       <input type="text" name="name" placeholder="Full Name" required>
@@ -161,7 +221,11 @@ form button:hover { background:#BC9F7D; }
       <input type="text" name="company" placeholder="Company / Organization Name" required>
       <select name="business_type" required>
         <option value="">Select Business Type</option>
-        <option>Event Management</option><option>Catering</option><option>Venue</option><option>Decor</option><option>Other</option>
+        <option>Event Management</option>
+        <option>Catering</option>
+        <option>Venue</option>
+        <option>Decor</option>
+        <option>Other</option>
       </select>
       <input type="text" name="website" placeholder="Company Website / Social Link (optional)">
       <input type="text" name="company_id" placeholder="Company ID / GST / PAN (optional)">
@@ -175,6 +239,7 @@ form button:hover { background:#BC9F7D; }
 </div>
 
 <script>
+// Toggle Sign In / Sign Up
 const signInForm = document.getElementById("signInForm");
 const signUpSection = document.getElementById("signUpSection");
 const showSignInBtn = document.getElementById("showSignIn");
@@ -186,6 +251,7 @@ showSignInBtn.addEventListener("click", () => {
   showSignInBtn.classList.add("active");
   showSignUpBtn.classList.remove("active");
 });
+
 showSignUpBtn.addEventListener("click", () => {
   signInForm.classList.add("hidden");
   signUpSection.classList.remove("hidden");
@@ -193,6 +259,7 @@ showSignUpBtn.addEventListener("click", () => {
   showSignInBtn.classList.remove("active");
 });
 
+// Signup forms toggle
 function showForm(role){
   document.getElementById("visitorForm").classList.add("hidden");
   document.getElementById("selfForm").classList.add("hidden");
@@ -200,68 +267,103 @@ function showForm(role){
   document.getElementById(role + "Form").classList.remove("hidden");
 }
 
-// ===== Fetch API for Backend =====
-async function submitForm(url, data){
-  const res = await fetch(url,{
-    method:"POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(data)
-  });
-  const d = await res.json();
-  alert(d.message);
-}
+// ----------- AJAX / Fetch for Forms -----------
 
 // Sign In
-document.getElementById("loginForm").addEventListener("submit", e=>{
+document.getElementById("loginForm").addEventListener("submit", async e=>{
   e.preventDefault();
-  const f = e.target;
-  submitForm("/signin", {role:f.role.value,email:f.email.value,password:f.password.value});
+  const form = e.target;
+  const res = await fetch("/signin", {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      role: form.role.value,
+      email: form.email.value,
+      password: form.password.value
+    })
+  });
+  const data = await res.json();
+  alert(data.message);
 });
 
 // Visitor Signup
-document.getElementById("visitorSignup").addEventListener("submit", e=>{
+document.getElementById("visitorSignup").addEventListener("submit", async e=>{
   e.preventDefault();
-  const f=e.target;
-  if(f.password.value!==f.confirm_password.value){ alert("Passwords do not match!"); return; }
-  submitForm("/signup", {
-    role:"visitor", name:f.name.value, email:f.email.value, mobile:f.mobile.value,
-    event_type:f.event_type.value, event_space:f.event_space.value, password:f.password.value,
-    company:null, business_type:null, website:null, company_id:null
+  const form = e.target;
+  if(form.password.value !== form.confirm_password.value){
+    alert("Passwords do not match!"); return;
+  }
+  const res = await fetch("/signup", {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      role:"visitor",
+      name: form.name.value,
+      email: form.email.value,
+      mobile: form.mobile.value,
+      event_type: form.event_type.value,
+      event_space: form.event_space.value,
+      password: form.password.value
+    })
   });
+  const data = await res.json();
+  alert(data.message);
 });
 
 // Self Signup
-document.getElementById("selfSignup").addEventListener("submit", e=>{
+document.getElementById("selfSignup").addEventListener("submit", async e=>{
   e.preventDefault();
-  const f=e.target;
-  if(f.password.value!==f.confirm_password.value){ alert("Passwords do not match!"); return; }
-  submitForm("/signup", {
-    role:"self", name:f.name.value, email:f.email.value, mobile:f.mobile.value,
-    company:f.company.value, business_type:f.business_type.value, website:f.website.value,
-    company_id:f.company_id.value, event_space:f.event_space.value, password:f.password.value,
-    event_type:null
+  const form = e.target;
+  if(form.password.value !== form.confirm_password.value){
+    alert("Passwords do not match!"); return;
+  }
+  const res = await fetch("/signup", {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      role:"self",
+      name: form.name.value,
+      email: form.email.value,
+      mobile: form.mobile.value,
+      company: form.company.value,
+      business_type: form.business_type.value,
+      website: form.website.value,
+      company_id: form.company_id.value,
+      event_space: form.event_space.value,
+      password: form.password.value
+    })
   });
+  const data = await res.json();
+  alert(data.message);
 });
 
 // Organizer Signup
-document.getElementById("organizerSignup").addEventListener("submit", e=>{
+document.getElementById("organizerSignup").addEventListener("submit", async e=>{
   e.preventDefault();
-  const f=e.target;
-  if(f.password.value!==f.confirm_password.value){ alert("Passwords do not match!"); return; }
-  submitForm("/signup", {
-    role:"organizer", name:f.name.value, email:f.email.value, mobile:f.mobile.value,
-    company:f.company.value, business_type:f.business_type.value, website:f.website.value,
-    company_id:f.company_id.value, event_space:f.event_space.value, password:f.password.value,
-    event_type:null
+  const form = e.target;
+  if(form.password.value !== form.confirm_password.value){
+    alert("Passwords do not match!"); return;
+  }
+  const res = await fetch("/signup", {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      role:"organizer",
+      name: form.name.value,
+      email: form.email.value,
+      mobile: form.mobile.value,
+      company: form.company.value,
+      business_type: form.business_type.value,
+      website: form.website.value,
+      company_id: form.company_id.value,
+      event_space: form.event_space.value,
+      password: form.password.value
+    })
   });
+  const data = await res.json();
+  alert(data.message);
 });
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
